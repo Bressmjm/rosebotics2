@@ -1,3 +1,4 @@
+cd
 Do the following, in the order listed, to complete this exercise:
 
 1. Get a robot.  Power it on.  Put it on its block.
