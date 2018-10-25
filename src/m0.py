@@ -8,19 +8,17 @@
 import rosebotics as rb
 import time
 
+
 def main():
     """ Runs tests. """
-    robot=rb.Snatch3rRobot()
-    robot.touch_sensor.wait_until_pressed()
-    robot.drive_system.move_for_seconds(5)
     run_tests()
 
 
 def run_tests():
     """ Runs various tests. """
-    #run_test_drive_system()
-    #run_test_touch_sensor()
-    #run_test_color_sensor()
+    run_test_drive_system()
+    # run_test_touch_sensor()
+    # run_test_color_sensor()
 
 
 def run_test_drive_system():

@@ -2,8 +2,8 @@
   Capstone Project.  This module contains high-level code that should be useful
   for a variety of applications of the robot.  Augment as appropriate.
 
-  Team # PUT_YOUR_TEAM_NUMBER_HERE.
-  Team members:  PUT_YOUR_NAMES_HERE.
+  Team # Dylan is not here
+  Team members:  Joshua and Achintya
   Fall term, 2018-2019.
 """
 
@@ -101,13 +101,17 @@ class DriveSystem(object):
                            inches,
                            duty_cycle_percent=100,
                            stop_action=StopAction.BRAKE):
+        # tests found that the car travels 9.5 in / 1 sec
+        time = inches/9.5
+        self.move_for_seconds(time)
+
         """
         Go straight at the given speed (-100 to 100, negative is backwards)
         for the given number of inches, stopping with the given StopAction.
         """
-        # TODO: Do a few experiments to determine the constant that converts
-        # TODO:   from wheel-degrees-spun to robot-inches-moved.
-        # TODO:   Assume that the conversion is linear with respect to speed.
+        # : Do a few experiments to determine the constant that converts
+        # :   from wheel-degrees-spun to robot-inches-moved.
+        # :   Assume that the conversion is linear with respect to speed.
 
     def spin_in_place_degrees(self,
                               degrees,

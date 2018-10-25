@@ -6,6 +6,7 @@
 """
 
 from ev3dev import ev3
+import rosebotics
 
 
 class Wheel(object):
