@@ -101,16 +101,17 @@ class DriveSystem(object):
                            inches,
                            duty_cycle_percent=100,
                            stop_action=StopAction.BRAKE):
+        # tests found that the car travels 9.5 in / 1 sec
+        time = inches/9.5
+        self.move_for_seconds(time)
+
         """
         Go straight at the given speed (-100 to 100, negative is backwards)
         for the given number of inches, stopping with the given StopAction.
         """
-        # TODO: Do a few experiments to determine the constant that converts
-        # TODO:   from wheel-degrees-spun to robot-inches-moved.
-        # TODO:   Assume that the conversion is linear with respect to speed.
-        seconds = inches / 9.5
-        self.move_for_seconds(seconds, duty_cycle_percent,
-                              duty_cycle_percent, stop_action)
+        # : Do a few experiments to determine the constant that converts
+        # :   from wheel-degrees-spun to robot-inches-moved.
+        # :   Assume that the conversion is linear with respect to speed.
 
     def spin_in_place_degrees(self,
                               degrees,
@@ -122,27 +123,16 @@ class DriveSystem(object):
         where positive is clockwise and negative is counter-clockwise),
         stopping by using the given StopAction.
         """
+        self.left_wheel.start_spinning(duty_cycle_percent)
+        self.right_wheel.start_spinning(-1*(duty_cycle_percent))
+        while True:
+            if self.left_wheel.get_degrees_spun() > degrees:
+                self.left_wheel.stop_moving(stop_action)
+                self.right_wheel.stop_spinning(stop_action)
+                break
         # TODO: Do a few experiments to determine the constant that converts
         # TODO:   from wheel-degrees-spun to robot-degrees-spun.
         # TODO:   Assume that the conversion is linear with respect to speed.
-        if degrees > 0:
-            seconds = (degrees / 360) * 6.28 * (6.5/2)
-            self.start_moving(duty_cycle_percent,
-                              duty_cycle_percent * -1)
-            start_time = time.time()
-            while True:
-                if time.time() - start_time > seconds:
-                    self.stop_moving(stop_action)
-                    break
-        elif degrees < 0:
-            seconds = (degrees / 360) * 6.28 * (6.5/2)
-            self.start_moving(duty_cycle_percent * -1,
-                              duty_cycle_percent)
-            start_time = time.time()
-            while True:
-                if time.time() - start_time > seconds:
-                    self.stop_moving(stop_action)
-                    break
 
     def turn_degrees(self,
                      degrees,
@@ -157,25 +147,6 @@ class DriveSystem(object):
         # TODO: Do a few experiments to determine the constant that converts
         # TODO:   from wheel-degrees-spun to robot-degrees-turned.
         # TODO:   Assume that the conversion is linear with respect to speed.
-        if degrees > 0:
-            seconds = (degrees / 360) * 6.28 * 6.5
-            self.start_moving(duty_cycle_percent,
-                              0)
-            start_time = time.time()
-            while True:
-                if time.time() - start_time > seconds:
-                    self.stop_moving(stop_action)
-                    break
-        elif degrees < 0:
-            seconds = (degrees / 360) * 6.28 * 6.5
-            self.start_moving(duty_cycle_percent * -1,
-                              0)
-            start_time = time.time()
-            while True:
-                if time.time() - start_time > seconds:
-                    self.stop_moving(stop_action)
-                    break
-
 
 
 # class ArmAndClaw(object):
