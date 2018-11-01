@@ -705,20 +705,25 @@ class ArmAndClaw(object):
 
     def calibrate(self):
         self.raise_arm_and_close_claw()
-        self
-        self.move_arm_to_position(0)
+        self.motor.reset_degrees_spun(0)
+        self.motor.start_spinning(duty_cycle_percent=-75)
+        while True:
+            if self.motor.get_degrees_spun() == 5112:
+                self.motor.stop_spinning(stop_action=None)
+                break
+        self.motor.reset_degrees_spun(0)
         """
         Raise the arm at a reasonable speed until the touch sensor is pressed.
         Then lower the arm 14.2 revolutions (i.e., 14.2 * 360 degrees),
         again at a reasonable speed. Then set the motor's position to 0.
         (Hence, 0 means all the way DOWN and 14.2 * 360 means all the way UP).
         """
-        # TODo: Do this as STEP 2 of implementing this class.
+        # DONE: Do this as STEP 2 of implementing this class.
 
     def raise_arm_and_close_claw(self):
-        self.motor.start_spinning(duty_cycle_percent=100)
         while True:
-            if self.touch_sensor.is_pressed == True:
+            self.motor.start_spinning(duty_cycle_percent=100)
+            if self.touch_sensor.is_pressed:
                 self.motor.stop_spinning(stop_action=None)
                 break
 
@@ -728,7 +733,7 @@ class ArmAndClaw(object):
         Positive speeds make the arm go UP; negative speeds make it go DOWN.
         Stop when the touch sensor is pressed.
         """
-        # TODO: Do this as STEP 1 of implementing this class.
+        # DONE: Do this as STEP 1 of implementing this class.
 
     def move_arm_to_position(self, position):
         """
@@ -736,3 +741,15 @@ class ArmAndClaw(object):
         Move at a reasonable speed.
         """
         # TODO: Do this as STEP 3 of implementing this class.
+        if self.motor.get_degrees_spun() > position * 360:
+            self.motor.start_spinning(duty_cycle_percent=-75)
+            while True:
+                if self.motor.get_degrees_spun() == position * 360:
+                    self.motor.stop_spinning(stop_action=None)
+                    break
+        if self.motor.get_degrees_spun() > position * 360:
+            self.motor.start_spinning(duty_cycle_percent=-75)
+            while True:
+                if self.motor.get_degrees_spun() == position * 360:
+                    self.motor.stop_spinning(stop_action=None)
+                    break
