@@ -712,7 +712,7 @@ class ArmAndClaw(object):
         again at a reasonable speed. Then set the motor's position to 0.
         (Hence, 0 means all the way DOWN and 14.2 * 360 means all the way UP).
         """
-        # TODO: Do this as STEP 2 of implementing this class.
+        # TODo: Do this as STEP 2 of implementing this class.
 
     def raise_arm_and_close_claw(self):
         while True:
