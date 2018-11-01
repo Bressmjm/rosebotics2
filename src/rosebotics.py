@@ -202,6 +202,7 @@ class TouchSensor(low_level_rb.TouchSensor):
             None
 
 
+
 class Camera(object):
     """ Primary author of this class:  PUT_YOUR_NAME_HERE. """
 
@@ -249,7 +250,6 @@ class ColorSensor(low_level_rb.ColorSensor):
             for k in range(len(colors)):
                 if self.get_color()==colors[k]:
                     break
-
 
 class InfraredSensorAsProximitySensor(object):
     """ Primary author of this class:  PUT_YOUR_NAME_HERE. """
