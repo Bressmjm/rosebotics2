@@ -5,10 +5,52 @@
 
 import rosebotics as rb
 import time
+import m2
 
 
 def main():
     """ Runs YOUR specific part of the project """
-
-
-main()
+    #robot=rb.Snatch3rRobot()
+    #Test 1 (wait until pressed):
+    #while True:
+        #robot.touch_sensor.wait_until_pressed()
+        #robot.drive_system.move_for_seconds(5)
+    #Test 2 (wait until released):
+    #robot=rb.Snatch3rRobot()
+    #while True:
+        #robot.touch_sensor.wait_until_released()
+        #robot.drive_system.move_for_seconds(2)
+    #Test 3 (go straight inches):
+    #robot = rb.Snatch3rRobot()
+    #robot.touch_sensor.wait_until_pressed()
+    #robot.drive_system.go_straight_inches(5)
+    #robot.touch_sensor.wait_until_pressed()
+    #robot.drive_system.go_straight_inches(20)
+    #Test 4 (wait until color is):
+    #robot= rb.Snatch3rRobot()
+    #robot.color_sensor.wait_until_color_is(rb.Color.BLACK.value)
+    #robot.drive_system.move_for_seconds(1)
+    #robot.color_sensor.wait_until_color_is(rb.Color.YELLOW.value)
+    #robot.drive_system.move_for_seconds(1)
+    #robot.color_sensor.wait_until_color_is(rb.Color.BLUE.value)
+    #robot.drive_system.move_for_seconds(1)
+    #Test 5 (wait until color is one of):
+    #robot = rb.Snatch3rRobot()
+    #colors = [rb.Color.BLUE.value, rb.Color.BROWN.value, rb.Color.RED.value]
+    #while True:
+        #robot.color_sensor.wait_until_color_is_one_of(colors)
+        #robot.drive_system.move_for_seconds(1)
+    #Test 6 (spin in place degrees):
+    #robot = rb.Snatch3rRobot()
+    #while True:
+        #robot.touch_sensor.wait_until_pressed()
+        #robot.drive_system.spin_in_place_degrees(90)
+    #Test 7 (turn degrees):
+    #robot = rb.Snatch3rRobot()
+    #while True:
+        #robot.touch_sensor.wait_until_pressed()
+        #robot.drive_system.turn_degrees(90)
+    #Test 8:
+    robot=rb.Snatch3rRobot()
+    robot.touch_sensor.wait_until_pressed()
+    m2.polygon(3,robot)
