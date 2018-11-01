@@ -10,10 +10,13 @@ import ev3dev.ev3 as ev3
 
 def main():
     robot = rb.Snatch3rRobot()
-    blob = robot.camera.get_biggest_blob()
     while True:
+        blob = robot.camera.get_biggest_blob()
         if (blob.height * blob.width) >= 600:
             ev3.Sound.beep().wait()
+        if robot.touch_sensor.is_pressed() == True:
+            break
+
 
 
     """ Runs YOUR specific part of the project """
