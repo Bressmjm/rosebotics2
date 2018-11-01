@@ -705,6 +705,7 @@ class ArmAndClaw(object):
 
     def calibrate(self):
         self.raise_arm_and_close_claw()
+        self
         self.move_arm_to_position(0)
         """
         Raise the arm at a reasonable speed until the touch sensor is pressed.
@@ -715,8 +716,8 @@ class ArmAndClaw(object):
         # TODo: Do this as STEP 2 of implementing this class.
 
     def raise_arm_and_close_claw(self):
+        self.motor.start_spinning(duty_cycle_percent=100)
         while True:
-            self.motor.start_spinning(duty_cycle_percent=100)
             if self.touch_sensor.is_pressed == True:
                 self.motor.stop_spinning(stop_action=None)
                 break
