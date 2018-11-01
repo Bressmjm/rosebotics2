@@ -2,8 +2,8 @@
   Capstone Project.  This module contains high-level code that should be useful
   for a variety of applications of the robot.  Augment as appropriate.
 
-  Team # Dylan is not here
-  Team members:  Joshua and Achintya
+  Team # PUT_YOUR_TEAM_NUMBER_HERE.
+  Team members:  PUT_YOUR_NAMES_HERE.
   Fall term, 2018-2019.
 """
 
@@ -101,17 +101,15 @@ class DriveSystem(object):
                            inches,
                            duty_cycle_percent=100,
                            stop_action=StopAction.BRAKE):
-        # tests found that the car travels 9.5 in / 1 sec
-        time = inches/9.5
-        self.move_for_seconds(time)
-
         """
         Go straight at the given speed (-100 to 100, negative is backwards)
         for the given number of inches, stopping with the given StopAction.
         """
-        # : Do a few experiments to determine the constant that converts
-        # :   from wheel-degrees-spun to robot-inches-moved.
-        # :   Assume that the conversion is linear with respect to speed.
+        # TO: Do a few experiments to determine the constant that converts
+        # TO:   from wheel-degrees-spun to robot-inches-moved.
+        # TO:   Assume that the conversion is linear with respect to speed.
+        seconds = inches / 9.166
+        self.move_for_seconds(seconds)
 
     def spin_in_place_degrees(self,
                               degrees,
@@ -123,16 +121,27 @@ class DriveSystem(object):
         where positive is clockwise and negative is counter-clockwise),
         stopping by using the given StopAction.
         """
-        self.left_wheel.start_spinning(duty_cycle_percent)
-        self.right_wheel.start_spinning(-1*(duty_cycle_percent))
-        while True:
-            if self.left_wheel.get_degrees_spun() > degrees:
-                self.left_wheel.stop_moving(stop_action)
-                self.right_wheel.stop_spinning(stop_action)
-                break
-        # TODO: Do a few experiments to determine the constant that converts
-        # TODO:   from wheel-degrees-spun to robot-degrees-spun.
-        # TODO:   Assume that the conversion is linear with respect to speed.
+        # TO: Do a few experiments to determine the constant that converts
+        # TO:   from wheel-degrees-spun to robot-degrees-spun.
+        # TO:   Assume that the conversion is linear with respect to speed.
+        if degrees > 0:
+            seconds = degrees /112
+            self.start_moving(duty_cycle_percent,
+                              duty_cycle_percent * -1)
+            start_time = time.time()
+            while True:
+                if time.time() - start_time > seconds:
+                    self.stop_moving(stop_action)
+                    break
+        elif degrees < 0:
+            seconds = degrees/112
+            self.start_moving(duty_cycle_percent * -1,
+                              duty_cycle_percent)
+            start_time = time.time()
+            while True:
+                if time.time() - start_time > seconds:
+                    self.stop_moving(stop_action)
+                    break
 
     def turn_degrees(self,
                      degrees,
@@ -147,6 +156,24 @@ class DriveSystem(object):
         # TODO: Do a few experiments to determine the constant that converts
         # TODO:   from wheel-degrees-spun to robot-degrees-turned.
         # TODO:   Assume that the conversion is linear with respect to speed.
+        if degrees > 0:
+            seconds = degrees/58
+            self.start_moving(duty_cycle_percent,
+                              0)
+            start_time = time.time()
+            while True:
+                if time.time() - start_time > seconds:
+                    self.stop_moving(stop_action)
+                    break
+        elif degrees < 0:
+            seconds = degrees/58
+            self.start_moving(duty_cycle_percent * -1,
+                              0)
+            start_time = time.time()
+            while True:
+                if time.time() - start_time > seconds:
+                    self.stop_moving(stop_action)
+                    break
 
 
 # class ArmAndClaw(object):
@@ -193,14 +220,14 @@ class TouchSensor(low_level_rb.TouchSensor):
     def wait_until_pressed(self):
         """ Waits (doing nothing new) until the touch sensor is pressed. """
         while True:
-            if self.get_value()==0:
+            if self.get_value()==1:
                 break
 
     def wait_until_released(self):
         """ Waits (doing nothing new) until the touch sensor is released. """
-        while self.get_value()==1:
-            None
-
+        while True:
+            if self.get_value()==0:
+                break
 
 class Camera(object):
     """ Primary author of this class:  PUT_YOUR_NAME_HERE. """
@@ -218,8 +245,9 @@ class ColorSensor(low_level_rb.ColorSensor):
         light intensity is less than the given value (threshold), which should
         be between 0 (no light reflected) and 100 (maximum light reflected).
         """
-        while self.get_reflected_intensity()>reflected_light_intensity:
-            None
+        while True:
+            if self.get_reflected_intensity()<reflected_light_intensity:
+                break
 
     def wait_until_intensity_is_greater_than(self, reflected_light_intensity):
         """
@@ -227,8 +255,9 @@ class ColorSensor(low_level_rb.ColorSensor):
         light intensity is greater than the given value (threshold), which
         should be between 0 (no light reflected) and 100 (max light reflected).
         """
-        while self.get_reflected_intensity()<reflected_light_intensity:
-            None
+        while True:
+            if self.get_reflected_intensity()>reflected_light_intensity:
+                break
 
     def wait_until_color_is(self, color):
         """
@@ -236,8 +265,9 @@ class ColorSensor(low_level_rb.ColorSensor):
         of what color it sees is the given color.
         The given color must be a Color (as defined above).
         """
-        while self.get_color()!=color:
-            None
+        while True:
+            if self.get_color()==color:
+                break
 
     def wait_until_color_is_one_of(self, colors):
         """
@@ -245,10 +275,12 @@ class ColorSensor(low_level_rb.ColorSensor):
         of what color it sees is any one of the given sequence of colors.
         Each item in the sequence must be a Color (as defined above).
         """
+        k=0
         while True:
-            for k in range(len(colors)):
-                if self.get_color()==colors[k]:
-                    break
+            k=k+1
+            if self.get_color()==colors[k%len(colors)]:
+                break
+
 
 
 class InfraredSensorAsProximitySensor(object):
@@ -262,4 +294,5 @@ class InfraredSensorAsBeaconSensor(object):
 
 
 class InfraredSensorAsBeaconButtonSensor(object):
+
     """ Primary author of this class:  PUT_YOUR_NAME_HERE. """
