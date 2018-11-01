@@ -3,9 +3,10 @@
   Fall term, 2018-2019.
 """
 
-import rosebotics as rb
+import rosebotics_new as rb
 import time
-import m2
+import m4
+import ev3dev.ev3 as ev3
 
 
 def main():
@@ -51,6 +52,12 @@ def main():
         #robot.touch_sensor.wait_until_pressed()
         #robot.drive_system.turn_degrees(90)
     #Test 8:
+    #robot=rb.Snatch3rRobot()
+    #robot.touch_sensor.wait_until_pressed()
+    #m2.polygon(3,robot)
     robot=rb.Snatch3rRobot()
-    robot.touch_sensor.wait_until_pressed()
-    m2.polygon(3,robot)
+    while True:
+        if robot.proximity_sensor.get_distance_to_nearest_object_in_inches()>9 and robot.proximity_sensor.get_distance_to_nearest_object_in_inches()<15:
+            ev3.Sound.beep().wait()
+        if robot.touch_sensor.is_pressed():
+            break

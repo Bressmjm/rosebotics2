@@ -517,7 +517,7 @@ class InfraredAsProximitySensor(low_level_rb.InfraredSensor):
         is within its field of vision.
         """
         inches_per_cm = 2.54
-        return 70 * inches_per_cm * self.get_distance_to_nearest_object() / 100
+        return 70* self.get_distance_to_nearest_object() / (100*inches_per_cm)
 
 
 class InfraredAsBeaconSensor(object):
