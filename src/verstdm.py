@@ -3,11 +3,15 @@
   Fall term, 2018-2019.
 """
 
-import rosebotics as rb
-import time
+import rosebotics_new as rb
 
 
 def main():
+    touch_sensor = rb.TouchSensor(port=ev3.INPUT_1)
+    claw = rb.ArmAndClaw(touch_sensor, port=ev3.OUTPUT_A)
+    claw.move_arm_to_position(180)
+    claw.move_arm_to_position(90)
+    claw.move_arm_to_position(270)
 
 #     def polygon(n, robot):
 #         deg_total = 180 * (n - 2)

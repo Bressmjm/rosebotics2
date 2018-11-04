@@ -206,7 +206,6 @@ class DriveSystem(object):
                 break
         self.stop_moving()
 
-
     def spin_in_place_degrees(self,
                               degrees,
                               duty_cycle_percent=100,
@@ -236,7 +235,6 @@ class DriveSystem(object):
                 #if time.time() - start_time > seconds:
                     #self.stop_moving(stop_action)
                     #break
-
 
     def turn_degrees(self,
                      degrees,
@@ -292,7 +290,7 @@ class TouchSensor(low_level_rb.TouchSensor):
                 if self.get_value() == 1:
                     break
 
-        #""" Waits (doing nothing new) until the touch sensor is pressed. """
+        # """ Waits (doing nothing new) until the touch sensor is pressed. """
         # TODO.
 
     def wait_until_released(self):
@@ -301,6 +299,7 @@ class TouchSensor(low_level_rb.TouchSensor):
         while True:
             if self.get_value()==0:
                 break
+
 
 class ColorSensor(low_level_rb.ColorSensor):
     """
@@ -311,7 +310,6 @@ class ColorSensor(low_level_rb.ColorSensor):
 
     def __init__(self, port=ev3.INPUT_3):
         super().__init__(port)
-
 
     def get_color(self):
         """
@@ -730,8 +728,8 @@ class ArmAndClaw(object):
         # DONE: Do this as STEP 2 of implementing this class.
 
     def raise_arm_and_close_claw(self):
+        self.motor.start_spinning(duty_cycle_percent=100)
         while True:
-            self.motor.start_spinning(duty_cycle_percent=100)
             if self.touch_sensor.is_pressed:
                 self.motor.stop_spinning(stop_action=None)
                 break
