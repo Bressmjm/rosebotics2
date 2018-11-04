@@ -2,10 +2,8 @@
   Capstone Project.  Code written by PUT_YOUR_NAME_HERE.
   Fall term, 2018-2019.
 """
-
 import rosebotics_new as rb
 import time
-import m4
 import ev3dev.ev3 as ev3
 
 

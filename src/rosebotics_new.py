@@ -2,7 +2,7 @@
   Capstone Project.
   This module contains high-level, general-purpose methods for a Snatch3r robot.
 
-  Team members:  PUT_YOUR_NAMES_HERE.
+  Team members:  .
   Fall term, 2018-2019.
 """
 # TODO: Put your names in the above.
@@ -196,8 +196,16 @@ class DriveSystem(object):
         # TO: Do a few experiments to determine the constant that converts
         # TO:   from wheel-degrees-spun to robot-inches-moved.
         # TO:   Assume that the conversion is linear with respect to speed.
-        seconds = inches / 9.166
-        self.move_for_seconds(seconds)
+        #seconds = inches / 9.166
+        #self.move_for_seconds(seconds)
+        degrees= 2*inches
+        self.right_wheel.start_spinning()
+        self.left_wheel.start_spinning()
+        while True:
+            if self.left_wheel.get_degrees_spun()>degrees:
+                break
+        self.stop_moving()
+
 
     def spin_in_place_degrees(self,
                               degrees,
@@ -212,24 +220,23 @@ class DriveSystem(object):
         # TO: Do a few experiments to determine the constant that converts
         # TO:   from wheel-degrees-spun to robot-degrees-spun.
         # TO:   Assume that the conversion is linear with respect to speed.
-        if degrees > 0:
-            seconds = degrees / 112
-            self.start_moving(duty_cycle_percent,
-                              duty_cycle_percent * -1)
-            start_time = time.time()
-            while True:
-                if time.time() - start_time > seconds:
-                    self.stop_moving(stop_action)
-                    break
-        elif degrees < 0:
-            seconds = degrees / 112
-            self.start_moving(duty_cycle_percent * -1,
-                              duty_cycle_percent)
-            start_time = time.time()
-            while True:
-                if time.time() - start_time > seconds:
-                    self.stop_moving(stop_action)
-                    break
+        #if degrees > 0:
+            #seconds = degrees / 112
+            #self.start_moving(duty_cycle_percent, duty_cycle_percent * -1)
+            #start_time = time.time()
+            #while True:
+                #if time.time() - start_time > seconds:
+                    #self.stop_moving(stop_action)
+                    #break
+        #elif degrees < 0:
+            #seconds = degrees / 112
+            #self.start_moving(duty_cycle_percent * -1, duty_cycle_percent)
+            #start_time = time.time()
+            #while True:
+                #if time.time() - start_time > seconds:
+                    #self.stop_moving(stop_action)
+                    #break
+
 
     def turn_degrees(self,
                      degrees,
@@ -285,13 +292,15 @@ class TouchSensor(low_level_rb.TouchSensor):
                 if self.get_value() == 1:
                     break
 
-        """ Waits (doing nothing new) until the touch sensor is pressed. """
+        #""" Waits (doing nothing new) until the touch sensor is pressed. """
         # TODO.
 
     def wait_until_released(self):
         """ Waits (doing nothing new) until the touch sensor is released. """
         # TODO
-
+        while True:
+            if self.get_value()==0:
+                break
 
 class ColorSensor(low_level_rb.ColorSensor):
     """
