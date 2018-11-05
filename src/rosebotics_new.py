@@ -196,13 +196,13 @@ class DriveSystem(object):
         # TO: Do a few experiments to determine the constant that converts
         # TO:   from wheel-degrees-spun to robot-inches-moved.
         # TO:   Assume that the conversion is linear with respect to speed.
-        #seconds = inches / 9.166
-        #self.move_for_seconds(seconds)
-        degrees= 2*inches
+        # seconds = inches / 9.166
+        # self.move_for_seconds(seconds)
+        degrees = 2*inches
         self.right_wheel.start_spinning()
         self.left_wheel.start_spinning()
         while True:
-            if self.left_wheel.get_degrees_spun()>degrees:
+            if self.left_wheel.get_degrees_spun() > degrees:
                 break
         self.stop_moving()
 
