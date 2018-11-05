@@ -728,7 +728,7 @@ class ArmAndClaw(object):
         # DONE: Do this as STEP 2 of implementing this class.
 
     def raise_arm_and_close_claw(self):
-        self.motor.start_spinning(duty_cycle_percent=100)
+        self.motor.start_spinning(duty_cycle_percent=-100)
         while True:
             if self.touch_sensor.is_pressed:
                 self.motor.stop_spinning(stop_action=None)
