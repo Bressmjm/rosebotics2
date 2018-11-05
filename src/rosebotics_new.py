@@ -711,7 +711,7 @@ class ArmAndClaw(object):
         self.motor.start_spinning(duty_cycle_percent=-75)
         while True:
             if self.motor.get_degrees_spun() == 5112:
-                self.motor.stop_spinning(stop_action=None)
+                self.motor.stop_spinning()
                 break
         self.motor.reset_degrees_spun(0)
         """
@@ -726,7 +726,7 @@ class ArmAndClaw(object):
         self.motor.start_spinning(duty_cycle_percent=100)
         while True:
             if self.touch_sensor.is_pressed:
-                self.motor.stop_spinning(stop_action=None)
+                self.motor.stop_spinning()
                 break
 
         """
@@ -747,11 +747,11 @@ class ArmAndClaw(object):
             self.motor.start_spinning(duty_cycle_percent=-75)
             while True:
                 if self.motor.get_degrees_spun() == position * 360:
-                    self.motor.stop_spinning(stop_action=None)
+                    self.motor.stop_spinning()
                     break
-        if self.motor.get_degrees_spun() > position * 360:
-            self.motor.start_spinning(duty_cycle_percent=-75)
+        if self.motor.get_degrees_spun() < position * 360:
+            self.motor.start_spinning(duty_cycle_percent=75)
             while True:
                 if self.motor.get_degrees_spun() == position * 360:
-                    self.motor.stop_spinning(stop_action=None)
+                    self.motor.stop_spinning()
                     break
