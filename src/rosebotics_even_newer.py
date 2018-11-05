@@ -215,6 +215,13 @@ class DriveSystem(object):
         # TODO:   Assume that the conversion is linear with respect to speed.
         # TODO: Don't forget that the Wheel object's position begins wherever
         # TODO:   it last was, not necessarily 0.
+        self.left_wheel.reset_degrees_spun()
+        degrees = inches * constant
+        self.start_moving()
+        while True:
+            if self.left_wheel.get_degrees_spun() >= degrees:
+                self.stop_moving()
+                break
 
     def spin_in_place_degrees(self,
                               degrees,
@@ -234,6 +241,13 @@ class DriveSystem(object):
         # TODO:   Assume that the conversion is linear with respect to speed.
         # TODO: Don't forget that the Wheel object's position begins wherever
         # TODO:   it last was, not necessarily 0.
+        self.left_wheel.start_spinning(duty_cycle_percent)
+        self.right_wheel.start_spinning(-1*duty_cycle_percent)
+        while True:
+            if self.left_wheel.get_degrees_spun() > degrees:
+                self.left_wheel.stop_spinning(stop_action)
+                self.right_wheel.stop_spinning(stop_action)
+                break
 
     def turn_degrees(self,
                      degrees,
@@ -253,6 +267,12 @@ class DriveSystem(object):
         # TODO:   Assume that the conversion is linear with respect to speed.
         # TODO: Don't forget that the Wheel object's position begins wherever
         # TODO:   it last was, not necessarily 0.
+        self.left_wheel.reset_degrees_spun()
+        self.left_wheel.start_spinning()
+        while True:
+            if self.left_wheel.get_degrees_spun() >= degrees:
+                self.left_wheel.stop_spinning()
+                break
 
 
 class TouchSensor(low_level_rb.TouchSensor):
@@ -272,10 +292,15 @@ class TouchSensor(low_level_rb.TouchSensor):
     def wait_until_pressed(self):
         """ Waits (doing nothing new) until the touch sensor is pressed. """
         # TODO.
+        while True:
+            if self.get_value() == 0:
+                break
 
     def wait_until_released(self):
         """ Waits (doing nothing new) until the touch sensor is released. """
         # TODO
+        while self.get_value() == 1:
+            None
 
 
 class ColorSensor(low_level_rb.ColorSensor):
@@ -287,7 +312,6 @@ class ColorSensor(low_level_rb.ColorSensor):
 
     def __init__(self, port=ev3.INPUT_3):
         super().__init__(port)
-
 
     def get_color(self):
         """
@@ -332,6 +356,8 @@ class ColorSensor(low_level_rb.ColorSensor):
         be between 0 (no light reflected) and 100 (maximum light reflected).
         """
         # TODO.
+        while self.get_reflected_intensity()>reflected_light_intensity:
+            None
 
     def wait_until_intensity_is_greater_than(self, reflected_light_intensity):
         """
@@ -340,6 +366,8 @@ class ColorSensor(low_level_rb.ColorSensor):
         should be between 0 (no light reflected) and 100 (max light reflected).
         """
         # TODO.
+        while self.get_reflected_intensity()<reflected_light_intensity:
+            None
 
     def wait_until_color_is(self, color):
         """
@@ -348,6 +376,8 @@ class ColorSensor(low_level_rb.ColorSensor):
         The given color must be a Color (as defined above).
         """
         # TODO.
+        while self.get_color() != color:
+            None
 
     def wait_until_color_is_one_of(self, colors):
         """
@@ -356,6 +386,10 @@ class ColorSensor(low_level_rb.ColorSensor):
         Each item in the sequence must be a Color (as defined above).
         """
         # TODO.
+        while True:
+            for k in range(len(colors)):
+                if self.get_color()==colors[k]:
+                    break
 
 
 class Camera(object):
@@ -566,7 +600,6 @@ class InfraredAsBeaconButtonSensor(object):
             "beacon": BEACON_BUTTON
         }
 
-
     def set_channel(self, channel):
         """
         Makes this sensor look for signals on the given channel. The physical
@@ -598,7 +631,6 @@ class InfraredAsBeaconButtonSensor(object):
 
     def is_bottom_blue_button_pressed(self):
         return self._underlying_ir_sensor.blue_down
-
 
 
 class BrickButtonSensor(object):

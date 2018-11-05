@@ -260,6 +260,7 @@ class ColorSensor(low_level_rb.ColorSensor):
                 if self.get_color()==colors[k]:
                     break
 
+
 class InfraredSensorAsProximitySensor(object):
     """ Primary author of this class:  PUT_YOUR_NAME_HERE. """
     def __init__(self, port=ev3.INPUT_4):
