@@ -283,11 +283,9 @@ class TouchSensor(low_level_rb.TouchSensor):
         return self.get_value() == 1
 
     def wait_until_pressed(self):
-        def wait_until_pressed(self):
-            """ Waits (doing nothing new) until the touch sensor is pressed. """
-            while True:
-                if self.get_value() == 1:
-                    break
+        while True:
+            if self.get_value() == 1:
+                break
 
         # """ Waits (doing nothing new) until the touch sensor is pressed. """
         # TODO.
@@ -707,13 +705,14 @@ class ArmAndClaw(object):
 
     def calibrate(self):
         self.raise_arm_and_close_claw()
-        self.motor.reset_degrees_spun(0)
+        self.
+        self.motor.reset_degrees_spun()
         self.motor.start_spinning(duty_cycle_percent=-75)
         while True:
             if self.motor.get_degrees_spun() == 5112:
                 self.motor.stop_spinning()
                 break
-        self.motor.reset_degrees_spun(0)
+        self.motor.reset_degrees_spun()
         """
         Raise the arm at a reasonable speed until the touch sensor is pressed.
         Then lower the arm 14.2 revolutions (i.e., 14.2 * 360 degrees),
