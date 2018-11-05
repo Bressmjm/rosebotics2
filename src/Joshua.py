@@ -11,7 +11,7 @@ def main():
     robot = rb.Snatch3rRobot()
     while True:
         blob = robot.camera.get_biggest_blob()
-        if (blob.height * blob.width) >= 50:
+        if (blob.height * blob.width) >= 600:
             print('test')
             ev3.Sound.beep().wait()
         if robot.touch_sensor.is_pressed() == True:

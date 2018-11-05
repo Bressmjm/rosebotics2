@@ -9,7 +9,6 @@ import ev3dev.ev3 as ev3
 
 def main():
     robot=rb.Snatch3rRobot()
-    robot.arm.raise_arm_and_close_claw()
     #touch_sensor = rb.TouchSensor(port=ev3.INPUT_1)
     #claw = rb.ArmAndClaw(touch_sensor, port=ev3.OUTPUT_A)
     #claw.move_arm_to_position(180)
