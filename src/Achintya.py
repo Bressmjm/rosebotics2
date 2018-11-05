@@ -2,9 +2,13 @@
   Capstone Project.  Code written by PUT_YOUR_NAME_HERE.
   Fall term, 2018-2019.
 """
+print('test')
 import rosebotics_new as rb
+print('test')
 import time
+print('test')
 import ev3dev.ev3 as ev3
+print('test')
 
 
 def main():
@@ -53,9 +57,14 @@ def main():
     #robot=rb.Snatch3rRobot()
     #robot.touch_sensor.wait_until_pressed()
     #m2.polygon(3,robot)
+    print('test1')
     robot=rb.Snatch3rRobot()
+    print('test2')
     while True:
         if robot.proximity_sensor.get_distance_to_nearest_object_in_inches()>9 and robot.proximity_sensor.get_distance_to_nearest_object_in_inches()<15:
+            print('test3')
             ev3.Sound.beep().wait()
         if robot.touch_sensor.is_pressed():
+            print('test4')
             break
+main()
