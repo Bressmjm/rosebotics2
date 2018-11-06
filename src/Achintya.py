@@ -111,13 +111,8 @@ def main():
         if robot.drive_system.left_wheel.get_degrees_spun() >= list[len(list)-1]:
             robot.drive_system.stop_moving()
             break
-
-
-
-
-
-
-
+    robot.drive_system.spin_in_place_degrees(180)
+    robot.arm.calibrate()
 
 
 
