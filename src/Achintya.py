@@ -57,14 +57,44 @@ def main():
     #robot=rb.Snatch3rRobot()
     #robot.touch_sensor.wait_until_pressed()
     #m2.polygon(3,robot)
-    print('test1')
+    #print('test1')
+    #robot=rb.Snatch3rRobot()
+    #print('test2')
+    #while True:
+        #if robot.proximity_sensor.get_distance_to_nearest_object_in_inches()>9 and robot.proximity_sensor.get_distance_to_nearest_object_in_inches()<15:
+            #print('test3')
+            #ev3.Sound.beep().wait()
+        #if robot.touch_sensor.is_pressed():
+            #print('test4')
+            #break
     robot=rb.Snatch3rRobot()
-    print('test2')
+    robot.drive_system.start_moving()
+    robot.drive_system.left_wheel.reset_degrees_spun()
+    list=[]
     while True:
-        if robot.proximity_sensor.get_distance_to_nearest_object_in_inches()>9 and robot.proximity_sensor.get_distance_to_nearest_object_in_inches()<15:
-            print('test3')
-            ev3.Sound.beep().wait()
-        if robot.touch_sensor.is_pressed():
-            print('test4')
+        blob=robot.camera.get_biggest_blob()
+        if blob.get_area()<=50:
+            list=list+[robot.drive_system.left_wheel.get_degrees_spun()]
+            robot.drive_system.left_wheel.reset_degrees_spun()
+            robot.drive_system.stop_moving()
+            robot.drive_system.start_moving(-100, 100)
+            while True:
+                blob=robot.camera.get_biggest_blob()
+                if blob.get_area()>=50:
+                    list = list + [robot.drive_system.left_wheel.get_degrees_spun()]
+                    robot.drive_system.left_wheel.reset_degrees_spun()
+                    robot.drive_system.stop_moving()
+                    break
+            robot.drive_system.start_moving()
+        if robot.proximity_sensor.get_distance_to_nearest_object_in_inches()<=1:
+            robot.drive_system.stop_moving()
             break
+
+
+
+
+
+
+
+
 main()
