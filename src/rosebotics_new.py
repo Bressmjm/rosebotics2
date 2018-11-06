@@ -703,17 +703,17 @@ class ArmAndClaw(object):
         # Sets the motor's position to 0 (the DOWN position).
         # At the DOWN position, the robot fits in its plastic bin,
         # so we start with the ArmAndClaw in that position.
-        self.calibrate()
+        #self.calibrate()
 
     def calibrate(self):
         self.raise_arm_and_close_claw()
-        self.motor.reset_degrees_spun(0)
+        self.motor.reset_degrees_spun()
         self.motor.start_spinning(duty_cycle_percent=-75)
         while True:
-            if self.motor.get_degrees_spun() == 5112:
+            if abs(self.motor.get_degrees_spun()) >= 5112:
                 self.motor.stop_spinning()
                 break
-        self.motor.reset_degrees_spun(0)
+        self.motor.reset_degrees_spun()
         """
         Raise the arm at a reasonable speed until the touch sensor is pressed.
         Then lower the arm 14.2 revolutions (i.e., 14.2 * 360 degrees),
@@ -725,7 +725,7 @@ class ArmAndClaw(object):
     def raise_arm_and_close_claw(self):
         self.motor.start_spinning(duty_cycle_percent=100)
         while True:
-            if self.touch_sensor.is_pressed:
+            if self.touch_sensor.is_pressed():
                 self.motor.stop_spinning()
                 break
 
