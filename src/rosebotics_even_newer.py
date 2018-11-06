@@ -5,10 +5,10 @@
   Team members:  PUT_YOUR_NAMES_HERE.
   Fall term, 2018-2019.
 """
-# TODO: Put your names in the above.
-# TODO: Do the TODO's below.
-# TODO: Augment this module as appropriate, being sure to always
-# TODO:   ** coordinate with your teammates ** in doing so.
+# ODO: Put your names in the above.
+# TDO: Do the TDO's below.
+# TOO: Augment this module as appropriate, being sure to always
+# TOD:   ** coordinate with your teammates ** in doing so.
 
 from ev3dev import ev3
 from enum import Enum
@@ -149,7 +149,7 @@ class DriveSystem(object):
        their colleagues, the entire team, and PUT_YOUR_NAME_HERE.
     """
 
-    # TODO: In the above line, put the name of the primary author of this class.
+    # TOD: In the above line, put the name of the primary author of this class.
 
     def __init__(self,
                  left_wheel_port=ev3.OUTPUT_B,
@@ -209,18 +209,19 @@ class DriveSystem(object):
         at the given speed (-100 to 100, where negative means moving backward),
         stopping using the given StopAction (which defaults to BRAKE).
         """
-        # TODO: Use one of the Wheel object's   get_degrees_spun   method.
-        # TODO: Do a few experiments to determine the constant that converts
-        # TODO:   from wheel-DEGREES-spun to robot-INCHES-moved.
-        # TODO:   Assume that the conversion is linear with respect to speed.
-        # TODO: Don't forget that the Wheel object's position begins wherever
-        # TODO:   it last was, not necessarily 0.
+        # ODO: Use one of the Wheel object's   get_degrees_spun   method.
+        # ODO: Do a few experiments to determine the constant that converts
+        # ODO:   from wheel-DEGREES-spun to robot-INCHES-moved.
+        # ODO:   Assume that the conversion is linear with respect to speed.
+        # ODO: Don't forget that the Wheel object's position begins wherever
+        # ODO:   it last was, not necessarily 0.
         self.left_wheel.reset_degrees_spun()
         degrees = inches * constant
-        self.start_moving()
+        self.start_moving(duty_cycle_percent)
         while True:
             if self.left_wheel.get_degrees_spun() >= degrees:
-                self.stop_moving()
+                self.left_wheel.stop_spinning(stop_action)
+                self.right_wheel.stop_spinning(stop_action)
                 break
 
     def spin_in_place_degrees(self,
@@ -235,12 +236,12 @@ class DriveSystem(object):
         "Spinning in place" means that both wheels spin at the same speed
         but in opposite directions.
         """
-        # TODO: Use one of the Wheel object's   get_degrees_spun   method.
-        # TODO: Do a few experiments to determine the constant that converts
-        # TODO:   from WHEEL-degrees-spun to ROBOT-degrees-spun.
-        # TODO:   Assume that the conversion is linear with respect to speed.
-        # TODO: Don't forget that the Wheel object's position begins wherever
-        # TODO:   it last was, not necessarily 0.
+        # TDO: Use one of the Wheel object's   get_degrees_spun   method.
+        # TDO: Do a few experiments to determine the constant that converts
+        # TDO:   from WHEEL-degrees-spun to ROBOT-degrees-spun.
+        # TDO:   Assume that the conversion is linear with respect to speed.
+        # TDO: Don't forget that the Wheel object's position begins wherever
+        # ODO:   it last was, not necessarily 0.
         self.left_wheel.start_spinning(duty_cycle_percent)
         self.right_wheel.start_spinning(-1*duty_cycle_percent)
         while True:
@@ -261,17 +262,17 @@ class DriveSystem(object):
         "Turning" means that both ONE wheel spins at the given speed and the
         other wheel does NOT spin.
         """
-        # TODO: Use the Wheel object's   get_degrees_spun   method.
-        # TODO: Do a few experiments to determine the constant that converts
-        # TODO:   from WHEEL-degrees-SPUN to ROBOT-degrees-TURNED.
-        # TODO:   Assume that the conversion is linear with respect to speed.
-        # TODO: Don't forget that the Wheel object's position begins wherever
-        # TODO:   it last was, not necessarily 0.
-        self.left_wheel.reset_degrees_spun()
-        self.left_wheel.start_spinning()
+        # ODO: Use the Wheel object's   get_degrees_spun   method.
+        # ODO: Do a few experiments to determine the constant that converts
+        # ODO:   from WHEEL-degrees-SPUN to ROBOT-degrees-TURNED.
+        # TDO:   Assume that the conversion is linear with respect to speed.
+        # TOO: Don't forget that the Wheel object's position begins wherever
+        # TOD:   it last was, not necessarily 0.
+        self.left_wheel.reset_degrees_spun(duty_cycle_percent)
+        self.left_wheel.start_spinning(duty_cycle_percent)
         while True:
             if self.left_wheel.get_degrees_spun() >= degrees:
-                self.left_wheel.stop_spinning()
+                self.left_wheel.stop_spinning(stop_action)
                 break
 
 
@@ -291,16 +292,17 @@ class TouchSensor(low_level_rb.TouchSensor):
 
     def wait_until_pressed(self):
         """ Waits (doing nothing new) until the touch sensor is pressed. """
-        # TODO.
+        # TOD
         while True:
             if self.get_value() == 0:
                 break
 
     def wait_until_released(self):
         """ Waits (doing nothing new) until the touch sensor is released. """
-        # TODO
-        while self.get_value() == 1:
-            None
+        # TOD
+        while True:
+            if self.get_value() == 1:
+                break
 
 
 class ColorSensor(low_level_rb.ColorSensor):
@@ -355,9 +357,10 @@ class ColorSensor(low_level_rb.ColorSensor):
         light intensity is less than the given value (threshold), which should
         be between 0 (no light reflected) and 100 (maximum light reflected).
         """
-        # TODO.
-        while self.get_reflected_intensity()>reflected_light_intensity:
-            None
+        # TOD.
+        while True:
+            if self.get_reflected_intensity() > reflected_light_intensity:
+                break
 
     def wait_until_intensity_is_greater_than(self, reflected_light_intensity):
         """
@@ -365,9 +368,10 @@ class ColorSensor(low_level_rb.ColorSensor):
         light intensity is greater than the given value (threshold), which
         should be between 0 (no light reflected) and 100 (max light reflected).
         """
-        # TODO.
-        while self.get_reflected_intensity()<reflected_light_intensity:
-            None
+        # TOD.
+        while True:
+            if self.get_reflected_intensity() < reflected_light_intensity:
+                break
 
     def wait_until_color_is(self, color):
         """
@@ -375,9 +379,10 @@ class ColorSensor(low_level_rb.ColorSensor):
         of what color it sees is the given color.
         The given color must be a Color (as defined above).
         """
-        # TODO.
-        while self.get_color() != color:
-            None
+        # TOD.
+        while True:
+            if self.get_color() == color:
+                break
 
     def wait_until_color_is_one_of(self, colors):
         """
@@ -385,10 +390,10 @@ class ColorSensor(low_level_rb.ColorSensor):
         of what color it sees is any one of the given sequence of colors.
         Each item in the sequence must be a Color (as defined above).
         """
-        # TODO.
+        # TOO.
         while True:
             for k in range(len(colors)):
-                if self.get_color()==colors[k]:
+                if self.get_color() == colors[k]:
                     break
 
 
@@ -462,7 +467,7 @@ class Blob(object):
         self.center = center
         self.width = width
         self.height = height
-        self.screen_limits = Point(320, 240)  # FIXME
+        self.screen_limits = Point(320, 240)  # FIXM
 
     def __repr__(self):
         return "center: ({:3d}, {:3d})  width, height: {:3d} {:3d}.".format(
@@ -497,7 +502,7 @@ class InfraredAsProximitySensor(low_level_rb.InfraredSensor):
     Primary authors:  The ev3dev authors, David Mutchler, Dave Fisher,
        their colleagues, the entire team, and PUT_YOUR_NAME_HERE.
     """
-    # TODO: In the above line, put the name of the primary author of this class.
+    # TOD: In the above line, put the name of the primary author of this class.
 
     def __init__(self, ir_sensor_port):
         super().__init__(ir_sensor_port)
@@ -587,7 +592,7 @@ class InfraredAsBeaconButtonSensor(object):
     Primary authors:  The ev3dev authors, David Mutchler, Dave Fisher,
     their colleagues, the entire team, and PUT_YOUR_NAME_HERE.
     """
-    # TODO: In the above line, put the name of the primary author of this class.
+    # TOD: In the above line, put the name of the primary author of this class.
 
     def __init__(self, channel=1):
         self.channel = channel
@@ -639,7 +644,7 @@ class BrickButtonSensor(object):
     Primary authors:  The ev3dev authors, David Mutchler, Dave Fisher,
     their colleagues, the entire team, and PUT_YOUR_NAME_HERE.
     """
-    # TODO: In the above line, put the name of the primary author of this class.
+    # TOD: In the above line, put the name of the primary author of this class.
 
     def __init__(self):
         self._underlying_sensor = low_level_rb.BrickButtonSensor()
@@ -690,7 +695,7 @@ class ArmAndClaw(object):
     Primary authors:  The ev3dev authors, David Mutchler, Dave Fisher,
     their colleagues, the entire team, and PUT_YOUR_NAME_HERE.
     """
-    # TODO: In the above line, put the name of the primary author of this class.
+    # TOD: In the above line, put the name of the primary author of this class.
 
     def __init__(self, touch_sensor, port=ev3.OUTPUT_A):
         # The ArmAndClaw's  motor  is not really a Wheel, of course,
@@ -712,7 +717,7 @@ class ArmAndClaw(object):
         again at a reasonable speed. Then set the motor's position to 0.
         (Hence, 0 means all the way DOWN and 14.2 * 360 means all the way UP).
         """
-        # TODO: Do this as STEP 2 of implementing this class.
+        # TOD: Do this as STEP 2 of implementing this class.
         self.raise_arm_and_close_claw()
         self.motor.reset_degrees_spun(0)
         self.motor.start_spinning(duty_cycle_percent=-75)
@@ -729,7 +734,7 @@ class ArmAndClaw(object):
         Positive speeds make the arm go UP; negative speeds make it go DOWN.
         Stop when the touch sensor is pressed.
         """
-        # TODO: Do this as STEP 1 of implementing this class.
+        # TOD: Do this as STEP 1 of implementing this class.
         self.motor.start_spinning(duty_cycle_percent=100)
         while True:
             if self.touch_sensor.is_pressed:
@@ -741,7 +746,7 @@ class ArmAndClaw(object):
         Spin the arm's motor until it reaches the given position.
         Move at a reasonable speed.
         """
-        # TODO: Do this as STEP 3 of implementing this class.
+        # TOD: Do this as STEP 3 of implementing this class.
         if self.motor.get_degrees_spun() > position * 360:
             self.motor.start_spinning(duty_cycle_percent=-75)
             while True:
