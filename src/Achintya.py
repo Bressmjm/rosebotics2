@@ -87,8 +87,35 @@ def main():
                     break
             robot.drive_system.start_moving()
         if robot.proximity_sensor.get_distance_to_nearest_object_in_inches()<=1:
+            list = list + [robot.drive_system.left_wheel.get_degrees_spun()]
+            robot.drive_system.left_wheel.reset_degrees_spun()
             robot.drive_system.stop_moving()
             break
+    robot.arm.raise_arm_and_close_claw()
+    for k in range(0,len(list),2):
+        robot.drive_system.left_wheel.reset_degrees_spun()
+        robot.drive_system.start_moving(-100,-100)
+        while True:
+            if robot.drive_system.left_wheel.get_degrees_spun()>=list[k]:
+                robot.drive_system.stop_moving()
+                break
+        robot.drive_system.left_wheel.reset_degrees_spun()
+        robot.drive_system.start_moving(100,-100)
+        while True:
+            if robot.drive_system.left_wheel.get_degrees_spun()>=list[k+1]:
+                robot.drive_system.stop_moving()
+                break
+    robot.drive_system.left_wheel.reset_degrees_spun()
+    robot.drive_system.start_moving(-100, -100)
+    while True:
+        if robot.drive_system.left_wheel.get_degrees_spun() >= list[len(list)-1]:
+            robot.drive_system.stop_moving()
+            break
+
+
+
+
+
 
 
 
