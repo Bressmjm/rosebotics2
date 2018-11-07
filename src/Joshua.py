@@ -20,7 +20,7 @@ def main():
 
 ########################################################################
 
-# Individual Project
+# Individual Project- Joshua Bressman
     # Dance Path
     def dance_routine(n, robot, color):
         polygon_list = ['triangle','quadrilateral','pentagon','hexagon','heptagon','octagon','enneagon','decagon','hendecagon','dodecagon','tridecagon','tetradecagon','pendedecagon','hexdecagon','heptdecagon','octdecagon','enneadecagon','icosagon']
@@ -33,21 +33,20 @@ def main():
             robot.drive_system.spin_in_place_degrees(180 - deg_turn)
             time.sleep(2)
             # Spin When Encounters A Color
-            # Sounds
             if robot.color_sensor.get_color == color:
                 robot.drive_system.spin_in_place_degrees(360)
                 totalspins = totalspins - 1
                 # Statement
-                print('I am spinning at the color ____')
+                print('I am spinning at the color',color)
                 # Sounds
             if totalspins == 0:
                 break
         # Statement
-        print("I danced in the shape of an" + polygon_list[n])
+        print("I danced in the shape of an",polygon_list[n-3])
         # Sounds
     # Moving A Blocking Object
         # Sounds
-        print('Get out of my way I am trying to make art')
+        print('Get out of my way I am trying to make art!')
         # Statement
 
 
