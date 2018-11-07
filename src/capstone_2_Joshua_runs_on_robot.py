@@ -75,5 +75,41 @@ class RemoteControlEtc(object):
         print("tells the robot to go forward")
         speed = int(speedstring)
         self.robot.drive_system.start_moving(speed, speed)
+      # Individual Project- Joshua Bressman
+        # Dance Path
+    def dance_routine(self,n,color):
+        # Statement
+        print('I am a dancing robot. Watch me dance!')
+        # Sound
+        polygon_list = ['triangle', 'quadrilateral', 'pentagon', 'hexagon', 'heptagon', 'octagon', 'enneagon',
+                        'decagon', 'hendecagon', 'dodecagon', 'tridecagon', 'tetradecagon', 'pendedecagon',
+                        'hexdecagon', 'heptdecagon', 'octdecagon', 'enneadecagon', 'icosagon']
+        deg_total = 180 * (n - 2)
+        deg_turn = deg_total / n
+        totalspins = n
+        while True:
+            self.robot.drive_system.go_straight_inches(24)
+            time.sleep(2)
+            self.robot.drive_system.spin_in_place_degrees(180 - deg_turn)
+            time.sleep(2)
+            # Spin When Encounters A Color
+            if self.robot.color_sensor.get_color() == color:
+                self.robot.drive_system.spin_in_place_degrees(360)
+                totalspins = totalspins - 1
+                # Statement
+                print('I am spinning at the color', color)
+                # Sounds
+            if totalspins == 0:
+                break
+        # Statement
+        print("I danced in the shape of an", polygon_list[n - 3])
+        # Sounds
+        # Moving A Blocking Object
+        if robot.InfraredAsProximitySensor.get_distance_to_nearest_object() <= 10:
+            robot.ArmAndClaw.raise_arm_and_close_claw()
+        # Sounds
+        print('Get out of my way I am trying to make art!')
+        # Statement
+    dance_routine(n, robot, color)
 
 main()

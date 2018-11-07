@@ -81,7 +81,7 @@ def setup_gui(root_window,client):
 def handle_go_forward(entry_box, client):
     speedstring = entry_box.get()
     print("sending the message", speedstring)
-    client.send_message("Let's Dance!", [speedstring])
+    client.send_message("go_forward", [speedstring])
 
 
 
