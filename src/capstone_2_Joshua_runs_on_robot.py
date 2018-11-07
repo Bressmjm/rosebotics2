@@ -7,7 +7,7 @@ Also: responds to Beacon button-presses by beeping, speaking.
 This module runs on the ROBOT.
 It uses MQTT to RECEIVE information from a program running on the LAPTOP.
 
-Authors:  David Mutchler, his colleagues, and PUT_YOUR_NAME_HERE.
+Authors:  David Mutchler, his colleagues, and Joshua Bressman.
 """
 # ------------------------------------------------------------------------------
 # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.  Then delete this TODO.
@@ -26,6 +26,12 @@ import ev3dev.ev3 as ev3
 
 
 def main():
+    robot = rb.Snatch3rRobot()
+    rc = RemoteControlEtc(robot)
+    client = com.MqttClient(rc)
+    client.connect_to_pc()
+
+
     # --------------------------------------------------------------------------
     # TODO: 3. Construct a Snatch3rRobot.  Test.  When OK, delete this TODO.
     # --------------------------------------------------------------------------
@@ -58,5 +64,16 @@ def main():
         # ----------------------------------------------------------------------
         time.sleep(0.01)  # For the delegate to do its work
 
+class RemoteControlEtc(object):
+    def __init__(self, robot):
+        '''
+        Stores the robot.
+        :type robot: rb.Snatch3rRobot
+        '''
+        self.robot = robot
+    def go_foward(self, speedstring):
+        print("tells the robot to go forward")
+        speed = int(speedstring)
+        self.robot.drive_system.start_moving(speed, speed)
 
 main()
