@@ -42,7 +42,7 @@ def main():
             if totalspins == 0:
                 break
         # Statement
-        print("I danced in the shape of an",polygon_list[n-3])
+        print("I danced in the shape of an", polygon_list[n-3])
         # Sounds
     # Moving A Blocking Object
         # Sounds
