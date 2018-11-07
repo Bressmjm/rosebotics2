@@ -32,7 +32,7 @@ Authors:  David Mutchler, his colleagues, and PUT_YOUR_NAME_HERE.
 
 # ------------------------------------------------------------------------------
 # TODO: 3. One team member: change the following in mqtt_remote_method_calls.py:
-#                LEGO_NUMBER = 99
+#                LEGO_NUMBER = 25
 # TODO:    to use YOUR robot's number instead of 99.
 # TODO:    Commit and push the change, then other team members Update Project.
 # TODO:    Then delete this TODO.
