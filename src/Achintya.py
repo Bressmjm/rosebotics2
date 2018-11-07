@@ -67,10 +67,19 @@ def main():
         #if robot.touch_sensor.is_pressed():
             #print('test4')
             #break
-    fetch()
+    #fetch()
+
+    robot=rb.Snatch3rRobot()
+    robot.drive_system.start_moving()
+    print('test1')
+    time.sleep(3)
+    print('test2')
+    robot.drive_system.stop_moving(rb.StopAction.BRAKE.value)
+    print('test3')
+
 def fetch():
     robot=rb.Snatch3rRobot()
-    #robot.drive_system.start_moving()
+    robot.drive_system.start_moving()
     robot.drive_system.left_wheel.reset_degrees_spun()
     list=[]
     while True:
@@ -79,23 +88,24 @@ def fetch():
             print('test1')
             list=list+[robot.drive_system.left_wheel.get_degrees_spun()]
             robot.drive_system.left_wheel.reset_degrees_spun()
-            #robot.drive_system.stop_moving()
-            time.sleep(1)
-            #robot.drive_system.start_moving(-100, 100)
+            robot.drive_system.stop_moving()
+            time.sleep(3)
+            robot.drive_system.start_moving(-100, 100)
             while True:
                 blob=robot.camera.get_biggest_blob()
                 if blob.get_area()>=50:
                     print('test2')
                     list = list + [robot.drive_system.left_wheel.get_degrees_spun()]
                     robot.drive_system.left_wheel.reset_degrees_spun()
-                    #robot.drive_system.stop_moving()
+                    robot.drive_system.stop_moving()
                     break
-            #robot.drive_system.start_moving()
+            robot.drive_system.start_moving()
         if robot.proximity_sensor.get_distance_to_nearest_object_in_inches()<=1:
             list = list + [robot.drive_system.left_wheel.get_degrees_spun()]
             robot.drive_system.left_wheel.reset_degrees_spun()
             robot.drive_system.stop_moving()
             break
+#def retrace(robot,list):
     robot.arm.raise_arm_and_close_claw()
     for k in range(0,len(list),2):
         robot.drive_system.left_wheel.reset_degrees_spun()

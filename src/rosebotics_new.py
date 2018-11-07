@@ -157,7 +157,7 @@ class DriveSystem(object):
         self.left_wheel.start_spinning(left_wheel_duty_cycle_percent)
         self.right_wheel.start_spinning(right_wheel_duty_cycle_percent)
 
-    def stop_moving(self, stop_action=StopAction.BRAKE):
+    def stop_moving(self, stop_action=StopAction.BRAKE.value):
         """ Stop moving, using the given StopAction. """
         self.left_wheel.stop_spinning(stop_action)
         self.right_wheel.stop_spinning(stop_action)
@@ -166,7 +166,7 @@ class DriveSystem(object):
                          seconds,
                          left_wheel_duty_cycle_percent=100,
                          right_wheel_duty_cycle_percent=100,
-                         stop_action=StopAction.BRAKE):
+                         stop_action=StopAction.BRAKE.value):
         """
         Move for the given number of seconds at the given wheel speeds.
         Speeds are -100 to 100, where negative means moving backwards.
@@ -187,7 +187,7 @@ class DriveSystem(object):
     def go_straight_inches(self,
                            inches,
                            duty_cycle_percent=100,
-                           stop_action=StopAction.BRAKE):
+                           stop_action=StopAction.BRAKE.value):
         """
         Go straight at the given speed (-100 to 100, negative is backwards)
         for the given number of inches, stopping with the given StopAction.
@@ -209,7 +209,7 @@ class DriveSystem(object):
     def spin_in_place_degrees(self,
                               degrees,
                               duty_cycle_percent=100,
-                              stop_action=StopAction.BRAKE):
+                              stop_action=StopAction.BRAKE.value):
         """
         Spin in place (i.e., both wheels move, in opposite directions)
         the given number of degrees, at the given speed (-100 to 100,
@@ -282,7 +282,6 @@ class TouchSensor(low_level_rb.TouchSensor):
         return self.get_value() == 1
 
     def wait_until_pressed(self):
-        def wait_until_pressed(self):
             """ Waits (doing nothing new) until the touch sensor is pressed. """
             while True:
                 if self.get_value() == 1:
