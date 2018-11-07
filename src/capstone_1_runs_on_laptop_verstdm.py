@@ -52,7 +52,11 @@ import mqtt_remote_method_calls as com
 def main():
     """ Constructs and runs a GUI for this program. """
     root = tkinter.Tk()
-    setup_gui(root)
+
+    mqtt_client = com.MqttClient()
+    mqtt_client.connect_to_ev3()
+
+    setup_gui(root, mqtt_client)
 
     root.mainloop()
     # --------------------------------------------------------------------------
@@ -62,7 +66,7 @@ def main():
     # --------------------------------------------------------------------------
 
 
-def setup_gui(root_window):
+def setup_gui(root_window, mqtt_client):
     """ Constructs and sets up widgets on the given window. """
     frame = ttk.Frame(root_window, padding=10)
     frame.grid()
@@ -74,13 +78,16 @@ def setup_gui(root_window):
     go_forward_button.grid()
 
     go_forward_button['command'] = \
-        lambda: handle_go_forward()
+        lambda: handle_go_forward(speed_entry_box, mqtt_client)
 
 
-def handle_go_forward():
+def handle_go_forward(entry_box, mqtt_client):
     """
     Tells the robot to go forward at the speed specified in the given entry box.
     """
+    speed_string = entry_box.get()
+    print('go_forward message with speed', speed_string)
+    mqtt_client.send_message('go_forward', [speed_string])
     # --------------------------------------------------------------------------
     # TODO: 6. This function needs the entry box in which the user enters
     # TODO:    the speed at which the robot should move.  Make the 2 changes
