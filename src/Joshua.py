@@ -50,7 +50,7 @@ def main():
     # Moving A Blocking Object
         if robot.InfraredAsProximitySensor.get_distance_to_nearest_object() <= 10:
             robot.ArmAndClaw.raise_arm_and_close_claw()
-        # Sounds 
+        # Sounds
         print('Get out of my way I am trying to make art!')
         # Statement
 
