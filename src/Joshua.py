@@ -23,6 +23,9 @@ def main():
 # Individual Project- Joshua Bressman
     # Dance Path
     def dance_routine(n, robot, color):
+        # Statement
+        print('I am a dancing robot. Watch me dance!')
+        # Sound
         polygon_list = ['triangle','quadrilateral','pentagon','hexagon','heptagon','octagon','enneagon','decagon','hendecagon','dodecagon','tridecagon','tetradecagon','pendedecagon','hexdecagon','heptdecagon','octdecagon','enneadecagon','icosagon']
         deg_total = 180 * (n - 2)
         deg_turn = deg_total / n
