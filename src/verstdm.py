@@ -3,13 +3,13 @@
   Fall term, 2018-2019.
 """
 
-import rosebotics_new as rb
+import rosebotics_even_newer as rb
 import ev3dev.ev3 as ev3
 import time as t
 
 
 def main():
-
+    robot = rb.Snatch3rRobot
 
 
 main()

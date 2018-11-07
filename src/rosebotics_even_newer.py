@@ -216,7 +216,7 @@ class DriveSystem(object):
         # ODO: Don't forget that the Wheel object's position begins wherever
         # ODO:   it last was, not necessarily 0.
         self.left_wheel.reset_degrees_spun()
-        degrees = inches * constant
+        degrees = inches * 114.59
         self.start_moving(duty_cycle_percent)
         while True:
             if self.left_wheel.get_degrees_spun() >= degrees:
