@@ -220,7 +220,7 @@ class DriveSystem(object):
         # TO:   from wheel-degrees-spun to robot-degrees-spun.
         # TO:   Assume that the conversion is linear with respect to speed.
         if degrees > 0:
-            degrees_spun = degrees*2
+            degrees_spun = degrees*4.8
             self.start_moving(duty_cycle_percent, duty_cycle_percent * -1)
             self.left_wheel.reset_degrees_spun()
             while True:
@@ -228,7 +228,7 @@ class DriveSystem(object):
                     self.stop_moving(stop_action)
                     break
         else:
-            degrees_spun = degrees*2
+            degrees_spun = degrees*4.8
             self.start_moving(duty_cycle_percent * -1, duty_cycle_percent)
             self.left_wheel.reset_degrees_spun()
             while True:
