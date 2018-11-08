@@ -15,7 +15,7 @@ def main():
     # test_drive_system(robot)
     # t.sleep(1)
     # robot.touch_sensor.wait_until_pressed()
-    # test_color_sensor(robot)
+    test_color_sensor(robot)
     # t.sleep(1)
     # robot.touch_sensor.wait_until_pressed()
     # test_polygon(robot)
@@ -27,7 +27,7 @@ def main():
     # test_arm_and_claw(robot)
     # t.sleep(1)
     # robot.touch_sensor.wait_until_pressed()
-    test_beeps(robot)
+    # test_beeps(robot)
 
 
 def test_drive_system(robot):
@@ -41,17 +41,17 @@ def test_drive_system(robot):
 
 
 def test_color_sensor(robot):
-    color_sensor(1, robot)
+    color_sensor(rb1.Color.RED.value, robot)
     robot.touch_sensor.wait_until_pressed()
-    color_sensor(2, robot)
+    color_sensor(rb1.Color.BLUE.value, robot)
     robot.touch_sensor.wait_until_pressed()
-    color_sensor(3, robot)
+    color_sensor(rb1.Color.GREEN.value, robot)
 
 
-def color_sensor(color_value, robot):
+def color_sensor(color, robot):
     robot.drive_system.start_moving()
     while True:
-        if robot.color_sensor.get_value() == color_value:
+        if robot.color_sensor.get_color() == color:
             robot.drive_system.stop_moving()
             break
 
@@ -73,12 +73,9 @@ def polygon(sides, robot):
 
 def test_follow_track(robot):
     while True:
-        robot.drive_system.start_moving()
-        if robot.color_sensor.get_reflected_intensity() > 50:
+        robot.drive_system.start_moving(30, 30)
+        if robot.color_sensor.get_reflected_intensity() > 30:
             robot.drive_system.turn_degrees(5)
-        if robot.touch_sensor.get_value() == 1:
-            robot.drive_system.stop_moving()
-            break
 
 
 def test_arm_and_claw(robot):
@@ -103,7 +100,7 @@ def test_beeps(robot):
     while True:
         blob = robot.camera.get_biggest_blob()
         if blob.get_area() >= 1000:
-            ev3.Sound.beep()
+            ev3.Sound.beep().wait()
         if robot.touch_sensor.get_value() == 1:
             break
 
