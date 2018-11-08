@@ -133,8 +133,8 @@ class Snatch3rRobot(object):
         self.color_sensor = ColorSensor(color_sensor_port)
         self.camera = Camera(camera_port)
 
-        #self.proximity_sensor = InfraredAsProximitySensor(ir_sensor_port)
-        #self.beacon_sensor = InfraredAsBeaconSensor(channel=1)
+        self.proximity_sensor = InfraredAsProximitySensor(ir_sensor_port)
+        # self.beacon_sensor = InfraredAsBeaconSensor(channel=1)
         self.beacon_button_sensor = InfraredAsBeaconButtonSensor(channel=1)
 
         self.brick_button_sensor = BrickButtonSensor()
@@ -220,15 +220,15 @@ class DriveSystem(object):
         # TO:   from wheel-degrees-spun to robot-degrees-spun.
         # TO:   Assume that the conversion is linear with respect to speed.
         if degrees > 0:
-            degrees_spun = degrees*4.8
-            self.start_moving(duty_cycle_percent, duty_cycle_percent * -1)
+            degrees_spun = degrees
             self.left_wheel.reset_degrees_spun()
+            self.start_moving(duty_cycle_percent, duty_cycle_percent * -1)
             while True:
-                if self.left_wheel.get_degrees_spun() > degrees_spun:
+                if self.left_wheel.get_degrees_spun() >= degrees_spun:
                     self.stop_moving(stop_action)
                     break
         else:
-            degrees_spun = degrees*4.8
+            degrees_spun = degrees
             self.start_moving(duty_cycle_percent * -1, duty_cycle_percent)
             self.left_wheel.reset_degrees_spun()
             while True:
