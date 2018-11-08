@@ -56,6 +56,10 @@ def main():
     # TODO:    When you understand this, delete this TODO.
     # --------------------------------------------------------------------------
     while True:
+        if robot.beacon_button_sensor.is_top_red_button_pressed() == True:
+            speech = ev3.Sound.speak("Hello, How are you?").wait()
+            speech.play()
+            robot.drive_system.move_for_seconds(3)
         # ----------------------------------------------------------------------
         # TODO: 7. Add code that makes the robot beep if the top-red button
         # TODO:    on the Beacon is pressed.  Add code that makes the robot
@@ -75,8 +79,10 @@ class RemoteControlEtc(object):
         print("tells the robot to go forward")
         speed = int(speedstring)
         self.robot.drive_system.start_moving(speed, speed)
-      # Individual Project- Joshua Bressman
+
+    # Individual Project- Joshua Bressman
         # Dance Path
+    '''
     def dance_routine(self,n,color):
         # Statement
         print('I am a dancing robot. Watch me dance!')
@@ -105,11 +111,12 @@ class RemoteControlEtc(object):
         print("I danced in the shape of an", polygon_list[n - 3])
         # Sounds
         # Moving A Blocking Object
-        if robot.InfraredAsProximitySensor.get_distance_to_nearest_object() <= 10:
-            robot.ArmAndClaw.raise_arm_and_close_claw()
+        if self.robot.InfraredAsProximitySensor.get_distance_to_nearest_object() <= 10:
+            self.robot.ArmAndClaw.raise_arm_and_close_claw()
         # Sounds
         print('Get out of my way I am trying to make art!')
         # Statement
-    dance_routine(n, robot, color)
+    dance_routine(n, self. robot, color)
+    '''
 
 main()
