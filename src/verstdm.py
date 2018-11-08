@@ -10,7 +10,6 @@ import time as t
 
 def main():
     robot = rb.Snatch3rRobot()
-    search_for_object(robot, (color_value))
 
 
 
