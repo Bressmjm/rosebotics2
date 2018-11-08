@@ -133,8 +133,8 @@ class Snatch3rRobot(object):
         self.color_sensor = ColorSensor(color_sensor_port)
         self.camera = Camera(camera_port)
 
-        self.proximity_sensor = InfraredAsProximitySensor(ir_sensor_port)
-        self.beacon_sensor = InfraredAsBeaconSensor(channel=1)
+        #self.proximity_sensor = InfraredAsProximitySensor(ir_sensor_port)
+        #self.beacon_sensor = InfraredAsBeaconSensor(channel=1)
         self.beacon_button_sensor = InfraredAsBeaconButtonSensor(channel=1)
 
         self.brick_button_sensor = BrickButtonSensor()
@@ -197,7 +197,7 @@ class DriveSystem(object):
         # TO:   Assume that the conversion is linear with respect to speed.
         # seconds = inches / 9.166
         # self.move_for_seconds(seconds)
-        degrees = 2 * inches
+        degrees = 84 * inches
         self.right_wheel.start_spinning(duty_cycle_percent)
         self.left_wheel.start_spinning(duty_cycle_percent)
         self.left_wheel.reset_degrees_spun()

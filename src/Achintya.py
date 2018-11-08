@@ -26,7 +26,7 @@ def main():
     #Test 3 (go straight inches):
     #robot = rb.Snatch3rRobot()
     #robot.touch_sensor.wait_until_pressed()
-    #robot.drive_system.go_straight_inches(5)
+    #robot.drive_system.go_straight_inches(20)
     #robot.touch_sensor.wait_until_pressed()
     #robot.drive_system.go_straight_inches(20)
     #Test 4 (wait until color is):
@@ -67,7 +67,8 @@ def main():
         #if robot.touch_sensor.is_pressed():
             #print('test4')
             #break
-    fetch()
+    #fetch()
+
 
 
 def fetch():
