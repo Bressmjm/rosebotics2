@@ -57,9 +57,10 @@ def main():
     # --------------------------------------------------------------------------
     while True:
         if robot.beacon_button_sensor.is_top_red_button_pressed() == True:
+            ev3.Sound.beep().wait()
+        if robot.beacon_button_sensor.is_top_blue_button_pressed() == True:
             speech = ev3.Sound.speak("Hello, How are you?").wait()
             speech.play()
-            robot.drive_system.move_for_seconds(3)
         # ----------------------------------------------------------------------
         # TODO: 7. Add code that makes the robot beep if the top-red button
         # TODO:    on the Beacon is pressed.  Add code that makes the robot
