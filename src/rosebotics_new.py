@@ -157,7 +157,7 @@ class DriveSystem(object):
         self.left_wheel.start_spinning(left_wheel_duty_cycle_percent)
         self.right_wheel.start_spinning(right_wheel_duty_cycle_percent)
 
-    def stop_moving(self, stop_action=StopAction.BRAKE.value):
+    def stop_moving(self, stop_action=StopAction.BRAKE):
         """ Stop moving, using the given StopAction. """
         self.left_wheel.stop_spinning(stop_action)
         self.right_wheel.stop_spinning(stop_action)
@@ -166,7 +166,7 @@ class DriveSystem(object):
                          seconds,
                          left_wheel_duty_cycle_percent=100,
                          right_wheel_duty_cycle_percent=100,
-                         stop_action=StopAction.BRAKE.value):
+                         stop_action=StopAction.BRAKE):
         """
         Move for the given number of seconds at the given wheel speeds.
         Speeds are -100 to 100, where negative means moving backwards.
@@ -187,7 +187,7 @@ class DriveSystem(object):
     def go_straight_inches(self,
                            inches,
                            duty_cycle_percent=100,
-                           stop_action=StopAction.BRAKE.value):
+                           stop_action=StopAction.BRAKE):
         """
         Go straight at the given speed (-100 to 100, negative is backwards)
         for the given number of inches, stopping with the given StopAction.
@@ -197,19 +197,19 @@ class DriveSystem(object):
         # TO:   Assume that the conversion is linear with respect to speed.
         # seconds = inches / 9.166
         # self.move_for_seconds(seconds)
-        degrees = 2*inches
-        self.right_wheel.start_spinning()
-        self.left_wheel.start_spinning()
+        degrees = 2 * inches
+        self.right_wheel.start_spinning(duty_cycle_percent)
+        self.left_wheel.start_spinning(duty_cycle_percent)
         self.left_wheel.reset_degrees_spun()
         while True:
             if self.left_wheel.get_degrees_spun() > degrees:
+                self.stop_moving(stop_action)
                 break
-        self.stop_moving()
 
     def spin_in_place_degrees(self,
                               degrees,
                               duty_cycle_percent=100,
-                              stop_action=StopAction.BRAKE.value):
+                              stop_action=StopAction.BRAKE):
         """
         Spin in place (i.e., both wheels move, in opposite directions)
         the given number of degrees, at the given speed (-100 to 100,
@@ -282,10 +282,10 @@ class TouchSensor(low_level_rb.TouchSensor):
         return self.get_value() == 1
 
     def wait_until_pressed(self):
-            """ Waits (doing nothing new) until the touch sensor is pressed. """
-            while True:
-                if self.get_value() == 1:
-                    break
+        """ Waits (doing nothing new) until the touch sensor is pressed. """
+        while True:
+            if self.get_value() == 1:
+                break
 
         # """ Waits (doing nothing new) until the touch sensor is pressed. """
         # TODO.
@@ -294,7 +294,7 @@ class TouchSensor(low_level_rb.TouchSensor):
         """ Waits (doing nothing new) until the touch sensor is released. """
         # TODO
         while True:
-            if self.get_value()==0:
+            if self.get_value() == 0:
                 break
 
 
@@ -521,8 +521,7 @@ class InfraredAsProximitySensor(low_level_rb.InfraredSensor):
         is within its field of vision.
         """
         inches_per_cm = 2.54
-        return 70* self.get_distance_to_nearest_object() / (100*inches_per_cm)
-
+        return 70 * self.get_distance_to_nearest_object() / (100*inches_per_cm)
 
 
 class InfraredAsBeaconSensor(object):
@@ -598,7 +597,6 @@ class InfraredAsBeaconButtonSensor(object):
             "beacon": BEACON_BUTTON
         }
 
-
     def set_channel(self, channel):
         """
         Makes this sensor look for signals on the given channel. The physical
@@ -630,6 +628,7 @@ class InfraredAsBeaconButtonSensor(object):
 
     def is_bottom_blue_button_pressed(self):
         return self._underlying_ir_sensor.blue_down
+
 
 class BrickButtonSensor(object):
     """
@@ -701,7 +700,7 @@ class ArmAndClaw(object):
         # Sets the motor's position to 0 (the DOWN position).
         # At the DOWN position, the robot fits in its plastic bin,
         # so we start with the ArmAndClaw in that position.
-        #self.calibrate()
+        # self.calibrate()
 
     def calibrate(self):
         self.raise_arm_and_close_claw()

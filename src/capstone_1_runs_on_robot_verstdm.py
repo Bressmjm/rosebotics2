@@ -61,6 +61,7 @@ def main():
         # TODO:    Beacon is pressed.  Test.  When done, delete this TODO.
         # ----------------------------------------------------------------------
         time.sleep(0.01)  # For the delegate to do its work
+        if robot.
 
 
 class RemoteControlEtc(object):
