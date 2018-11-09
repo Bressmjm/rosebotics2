@@ -64,21 +64,25 @@ def setup_gui(root_window,client):
     turn_left_button = ttk.Button(frame1,text='Turn left')
     stop_button = ttk.Button(frame1,text='Stop moving')
     choose_color_button= ttk.Button(frame1,text='Choose color')
+    fetch_button= ttk.Button(frame1,text='Fetch')
     yellow_button = ttk.Button(frame2,text='Yellow')
 
-    speed_entry_box.grid()
-    go_forward_button.grid(row=1, column=1)
-    go_backward_button.grid(row=1, column=2)
-    turn_left_button.grid()
-    turn_right_button.grid()
-    stop_button.grid()
-    choose_color_button.grid()
+    speed_entry_box.grid(row=1,column=2)
+    go_forward_button.grid(row=2, column=2)
+    go_backward_button.grid(row=4, column=2)
+    turn_left_button.grid(row=3,column=1)
+    turn_right_button.grid(row=3,column=3)
+    stop_button.grid(row=3,column=2)
+    choose_color_button.grid(row=5,column=1)
+    fetch_button.grid(row=5,column=3)
     yellow_button.grid()
 
 
 
     go_forward_button['command'] = \
         lambda: handle_go_forward(speed_entry_box,client)
+    go_backward_button['command'] = \
+        lambda: handle_go_backward(speed_entry_box,client)
     choose_color_button['command']=lambda: handle_choose_color(frame1,frame2)
     yellow_button['command']=lambda: color_set('SIG1',client,frame1,frame2)
 
@@ -98,6 +102,34 @@ def handle_go_forward(speedbox,client):
     """
     speed = speedbox.get()
     client.send_message('go_forward',[speed])
+
+def handle_go_backward(speedbox, client):
+    """
+    Tells the robot to go forward at the speed specified in the given entry box.
+    """
+    speed = speedbox.get()
+    client.send_message('go_backward', [speed])
+
+def handle_turn_right(speedbox, client):
+    """
+    Tells the robot to go forward at the speed specified in the given entry box.
+    """
+    speed = speedbox.get()
+    client.send_message('turn_right', [speed])
+
+def handle_turn_left(speedbox, client):
+    """
+    Tells the robot to go forward at the speed specified in the given entry box.
+    """
+    speed = speedbox.get()
+    client.send_message('turn_left', [speed])
+
+def handle_stop_moving(client):
+    """
+    Tells the robot to go forward at the speed specified in the given entry box.
+    """
+    client.send_message('stop_moving')
+
     # --------------------------------------------------------------------------
     #-------
 

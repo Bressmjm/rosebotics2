@@ -86,7 +86,7 @@ def fetch():
     list=[]
     while True:
         blob=robot.camera.get_biggest_blob()
-        if blob.get_area()<=50:
+        if blob.get_area()<=200:
             print('test1')
             list=list+[robot.drive_system.left_wheel.get_degrees_spun()]
             robot.drive_system.left_wheel.reset_degrees_spun()
@@ -94,7 +94,7 @@ def fetch():
             robot.drive_system.start_moving(-100, 100)
             while True:
                 blob=robot.camera.get_biggest_blob()
-                if blob.get_area()>=50:
+                if blob.get_area()>=200:
                     print('test2')
                     list = list + [robot.drive_system.left_wheel.get_degrees_spun()]
                     robot.drive_system.left_wheel.reset_degrees_spun()
@@ -112,19 +112,19 @@ def fetch():
         robot.drive_system.left_wheel.reset_degrees_spun()
         robot.drive_system.start_moving(-100,-100)
         while True:
-            if robot.drive_system.left_wheel.get_degrees_spun()>=list[k]:
+            if abs(robot.drive_system.left_wheel.get_degrees_spun())>=abs(list[k]):
                 robot.drive_system.stop_moving()
                 break
         robot.drive_system.left_wheel.reset_degrees_spun()
         robot.drive_system.start_moving(100,-100)
         while True:
-            if robot.drive_system.left_wheel.get_degrees_spun()>=list[k+1]:
+            if abs(robot.drive_system.left_wheel.get_degrees_spun())>=abs(list[k+1]):
                 robot.drive_system.stop_moving()
                 break
     robot.drive_system.left_wheel.reset_degrees_spun()
     robot.drive_system.start_moving(-100, -100)
     while True:
-        if robot.drive_system.left_wheel.get_degrees_spun() >= list[len(list)-1]:
+        if abs(robot.drive_system.left_wheel.get_degrees_spun()) >= abs(list[len(list)-1]):
             robot.drive_system.stop_moving()
             break
     robot.drive_system.spin_in_place_degrees(180)
