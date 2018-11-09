@@ -134,7 +134,7 @@ class Snatch3rRobot(object):
         self.camera = Camera(camera_port)
 
         self.proximity_sensor = InfraredAsProximitySensor(ir_sensor_port)
-        # self.beacon_sensor = InfraredAsBeaconSensor(channel=1)
+        self.beacon_sensor = InfraredAsBeaconSensor(channel=1)
         self.beacon_button_sensor = InfraredAsBeaconButtonSensor(channel=1)
 
         self.brick_button_sensor = BrickButtonSensor()
@@ -202,7 +202,7 @@ class DriveSystem(object):
         self.left_wheel.start_spinning(duty_cycle_percent)
         self.left_wheel.reset_degrees_spun()
         while True:
-            if self.left_wheel.get_degrees_spun() > degrees:
+            if abs(self.left_wheel.get_degrees_spun()) > degrees:
                 self.stop_moving(stop_action)
                 break
 
@@ -220,15 +220,15 @@ class DriveSystem(object):
         # TO:   from wheel-degrees-spun to robot-degrees-spun.
         # TO:   Assume that the conversion is linear with respect to speed.
         if degrees > 0:
-            degrees_spun = degrees
-            self.left_wheel.reset_degrees_spun()
+            degrees_spun = degrees*4.8
             self.start_moving(duty_cycle_percent, duty_cycle_percent * -1)
+            self.left_wheel.reset_degrees_spun()
             while True:
-                if self.left_wheel.get_degrees_spun() >= degrees_spun:
+                if self.left_wheel.get_degrees_spun() > degrees_spun:
                     self.stop_moving(stop_action)
                     break
         else:
-            degrees_spun = degrees
+            degrees_spun = degrees*4.8
             self.start_moving(duty_cycle_percent * -1, duty_cycle_percent)
             self.left_wheel.reset_degrees_spun()
             while True:
@@ -250,7 +250,7 @@ class DriveSystem(object):
         # TODO:   from wheel-degrees-spun to robot-degrees-turned.
         # TODO:   Assume that the conversion is linear with respect to speed.
         if degrees > 0:
-            degrees_spun = degrees*2
+            degrees_spun = degrees*12
             self.start_moving(duty_cycle_percent, 0)
             self.left_wheel.reset_degrees_spun()
             while True:
@@ -258,7 +258,7 @@ class DriveSystem(object):
                     self.stop_moving(stop_action)
                     break
         else:
-            degrees_spun = degrees*2
+            degrees_spun = degrees*12
             self.start_moving(duty_cycle_percent * -1, 0)
             self.left_wheel.reset_degrees_spun()
             while True:
@@ -700,7 +700,7 @@ class ArmAndClaw(object):
         # Sets the motor's position to 0 (the DOWN position).
         # At the DOWN position, the robot fits in its plastic bin,
         # so we start with the ArmAndClaw in that position.
-        self.calibrate()
+        #self.calibrate()
 
     def calibrate(self):
         self.raise_arm_and_close_claw()
@@ -739,7 +739,7 @@ class ArmAndClaw(object):
         Spin the arm's motor until it reaches the given position.
         Move at a reasonable speed.
         """
-        # TODO: Do this as STEP 3 of implementing this class.
+        # TO: Do this as STEP 3 of implementing this class.
         if self.motor.get_degrees_spun() > position * 360:
             self.motor.start_spinning(duty_cycle_percent=-75)
             while True:

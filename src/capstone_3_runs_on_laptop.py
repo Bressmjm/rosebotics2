@@ -53,17 +53,43 @@ def main():
 
 def setup_gui(root_window,client):
     """ Constructs and sets up widgets on the given window. """
-    frame = ttk.Frame(root_window, padding=10)
-    frame.grid()
+    frame1 = ttk.Frame(root_window, padding=10)
+    frame2= ttk.Frame(root_window, padding=10)
+    frame1.grid()
 
-    speed_entry_box = ttk.Entry(frame)
-    go_forward_button = ttk.Button(frame, text="Go forward")
+    speed_entry_box = ttk.Entry(frame1)
+    go_forward_button = ttk.Button(frame1, text="Go forward")
+    go_backward_button = ttk.Button(frame1,text='Go backward')
+    turn_right_button = ttk.Button(frame1,text='Turn right')
+    turn_left_button = ttk.Button(frame1,text='Turn left')
+    stop_button = ttk.Button(frame1,text='Stop moving')
+    choose_color_button= ttk.Button(frame1,text='Choose color')
+    yellow_button = ttk.Button(frame2,text='Yellow')
 
     speed_entry_box.grid()
-    go_forward_button.grid()
+    go_forward_button.grid(row=1, column=1)
+    go_backward_button.grid(row=1, column=2)
+    turn_left_button.grid()
+    turn_right_button.grid()
+    stop_button.grid()
+    choose_color_button.grid()
+    yellow_button.grid()
+
+
 
     go_forward_button['command'] = \
         lambda: handle_go_forward(speed_entry_box,client)
+    choose_color_button['command']=lambda: handle_choose_color(frame1,frame2)
+    yellow_button['command']=lambda: color_set('SIG1',client,frame1,frame2)
+
+def handle_choose_color(frame1,frame2):
+    frame1.grid_remove()
+    frame2.grid()
+
+def color_set(color,client,frame1,frame2):
+    client.send_message('choose_color',[color])
+    frame2.grid_remove()
+    frame1.grid()
 
 
 def handle_go_forward(speedbox,client):
@@ -71,7 +97,6 @@ def handle_go_forward(speedbox,client):
     Tells the robot to go forward at the speed specified in the given entry box.
     """
     speed = speedbox.get()
-    print('test',speed)
     client.send_message('go_forward',[speed])
     # --------------------------------------------------------------------------
     #-------

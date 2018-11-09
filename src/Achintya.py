@@ -26,7 +26,7 @@ def main():
     #Test 3 (go straight inches):
     #robot = rb.Snatch3rRobot()
     #robot.touch_sensor.wait_until_pressed()
-    #robot.drive_system.go_straight_inches(20)
+    #robot.drive_system.go_straight_inches(20,-100)
     #robot.touch_sensor.wait_until_pressed()
     #robot.drive_system.go_straight_inches(20)
     #Test 4 (wait until color is):
@@ -44,10 +44,10 @@ def main():
         #robot.color_sensor.wait_until_color_is_one_of(colors)
         #robot.drive_system.move_for_seconds(1)
     #Test 6 (spin in place degrees):
-    robot = rb.Snatch3rRobot()
-    while True:
-        robot.touch_sensor.wait_until_pressed()
-        robot.drive_system.spin_in_place_degrees(-90)
+    #robot = rb.Snatch3rRobot()
+    #while True:
+        #robot.touch_sensor.wait_until_pressed()
+        #robot.drive_system.spin_in_place_degrees(-90)
     #Test 7 (turn degrees):
     #robot = rb.Snatch3rRobot()
     #while True:
@@ -68,6 +68,14 @@ def main():
             #print('test4')
             #break
     #fetch()
+    #robot=rb.Snatch3rRobot()
+    #while True:
+        #blob = robot.camera.get_biggest_blob()
+        #if (blob.height * blob.width) >= 600:
+            #print('test')
+            #ev3.Sound.beep().wait()
+        #if robot.touch_sensor.is_pressed() == True:
+            #break
 
 
 
