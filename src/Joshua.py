@@ -26,6 +26,7 @@ def main():
         # Statement
         print('I am a dancing robot. Watch me dance!')
         # Sound
+        ev3.Sound.speak("I am a dancing robot. Watch me dance!").wait()
         polygon_list = ['triangle','quadrilateral','pentagon','hexagon','heptagon','octagon','enneagon','decagon','hendecagon','dodecagon','tridecagon','tetradecagon','pendedecagon','hexdecagon','heptdecagon','octdecagon','enneadecagon','icosagon']
         deg_total = 180 * (n - 2)
         deg_turn = deg_total / n
@@ -35,6 +36,13 @@ def main():
             time.sleep(2)
             robot.drive_system.spin_in_place_degrees(180 - deg_turn)
             time.sleep(2)
+            # Moving A Blocking Object
+            if robot.InfraredAsProximitySensor.get_distance_to_nearest_object() <= 10:
+                robot.ArmAndClaw.raise_arm_and_close_claw()
+            # Statement
+            print('Get out of my way I am trying to make art!')
+            # Sounds
+            ev3.Sound.speak("Get out of my way I am trying to make art!").wait()
             # Spin When Encounters A Color
             if robot.color_sensor.get_color == color:
                 robot.drive_system.spin_in_place_degrees(360)
@@ -42,20 +50,13 @@ def main():
                 # Statement
                 print('I am spinning at the color',color)
                 # Sounds
+                ev3.Sound.speak("I am spinning at the color",color).wait()
             if totalspins == 0:
                 break
         # Statement
         print("I danced in the shape of an", polygon_list[n-3])
         # Sounds
-    # Moving A Blocking Object
-        if robot.InfraredAsProximitySensor.get_distance_to_nearest_object() <= 10:
-            robot.ArmAndClaw.raise_arm_and_close_claw()
-        # Sounds
-        print('Get out of my way I am trying to make art!')
-        # Statement
-
-
-
+        ev3.Sound.speak("I danced in the shape of an",polygon_list[n-3]).wait()
 
     """ Runs YOUR specific part of the project """
 

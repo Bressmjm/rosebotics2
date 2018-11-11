@@ -31,6 +31,45 @@ def main():
     client = com.MqttClient(rc)
     client.connect_to_pc()
 
+# Individual Project- Joshua Bressman
+# Dance Path
+def dance_routine(n, robot, color):
+    # Statement
+    print('I am a dancing robot. Watch me dance!')
+    # Sound
+    ev3.Sound.speak("I am a dancing robot. Watch me dance!").wait()
+    polygon_list = ['triangle', 'quadrilateral', 'pentagon', 'hexagon', 'heptagon', 'octagon', 'enneagon',
+                    'decagon', 'hendecagon', 'dodecagon', 'tridecagon', 'tetradecagon', 'pendedecagon',
+                    'hexdecagon', 'heptdecagon', 'octdecagon', 'enneadecagon', 'icosagon']
+    deg_total = 180 * (n - 2)
+    deg_turn = deg_total / n
+    totalspins = n
+    while True:
+        robot.drive_system.go_straight_inches(24)
+        time.sleep(2)
+        robot.drive_system.spin_in_place_degrees(180 - deg_turn)
+        time.sleep(2)
+        # Moving A Blocking Object
+        if robot.InfraredAsProximitySensor.get_distance_to_nearest_object() <= 10:
+            robot.ArmAndClaw.raise_arm_and_close_claw()
+        # Statement
+        print('Get out of my way I am trying to make art!')
+        # Sounds
+        ev3.Sound.speak("Get out of my way I am trying to make art!").wait()
+        # Spin When Encounters A Color
+        if robot.color_sensor.get_color == color:
+            robot.drive_system.spin_in_place_degrees(360)
+            totalspins = totalspins - 1
+            # Statement
+            print('I am spinning at the color', color)
+            # Sounds
+            ev3.Sound.speak("I am spinning at the color", color).wait()
+        if totalspins == 0:
+            break
+    # Statement
+    print("I danced in the shape of an", polygon_list[n - 3])
+    # Sounds
+    ev3.Sound.speak("I danced in the shape of an", polygon_list[n - 3]).wait()
 
     # --------------------------------------------------------------------------
     # TODO: 3. Construct a Snatch3rRobot.  Test.  When OK, delete this TODO.
@@ -76,18 +115,14 @@ class RemoteControlEtc(object):
         :type robot: rb.Snatch3rRobot
         '''
         self.robot = robot
-    def go_foward(self, speedstring):
-        print("tells the robot to go forward")
-        speed = int(speedstring)
-        self.robot.drive_system.start_moving(speed, speed)
 
-    # Individual Project- Joshua Bressman
-        # Dance Path
-    '''
-    def dance_routine(self,n,color):
+# Individual Project- Joshua Bressman
+    # Dance Path
+    def dance_routine(self, n, color):
         # Statement
         print('I am a dancing robot. Watch me dance!')
         # Sound
+        ev3.Sound.speak("I am a dancing robot. Watch me dance!").wait()
         polygon_list = ['triangle', 'quadrilateral', 'pentagon', 'hexagon', 'heptagon', 'octagon', 'enneagon',
                         'decagon', 'hendecagon', 'dodecagon', 'tridecagon', 'tetradecagon', 'pendedecagon',
                         'hexdecagon', 'heptdecagon', 'octdecagon', 'enneadecagon', 'icosagon']
@@ -99,25 +134,32 @@ class RemoteControlEtc(object):
             time.sleep(2)
             self.robot.drive_system.spin_in_place_degrees(180 - deg_turn)
             time.sleep(2)
+            # Moving A Blocking Object
+            if self.robot.proximity_sensor.get_distance_to_nearest_object() <= 10:
+                self.robot.arm.raise_arm_and_close_claw()
+            # Statement
+            print('Get out of my way I am trying to make art!')
+            # Sounds
+            ev3.Sound.speak("Get out of my way I am trying to make art!").wait()
             # Spin When Encounters A Color
-            if self.robot.color_sensor.get_color() == color:
+            if self.robot.color_sensor.get_color == color:
                 self.robot.drive_system.spin_in_place_degrees(360)
                 totalspins = totalspins - 1
                 # Statement
                 print('I am spinning at the color', color)
                 # Sounds
+                ev3.Sound.speak("I am spinning at the color", color).wait()
             if totalspins == 0:
                 break
         # Statement
         print("I danced in the shape of an", polygon_list[n - 3])
         # Sounds
-        # Moving A Blocking Object
-        if self.robot.InfraredAsProximitySensor.get_distance_to_nearest_object() <= 10:
-            self.robot.ArmAndClaw.raise_arm_and_close_claw()
-        # Sounds
-        print('Get out of my way I am trying to make art!')
-        # Statement
-    dance_routine(n, self. robot, color)
+        ev3.Sound.speak("I danced in the shape of an", polygon_list[n - 3]).wait()
+    '''
+    def go_foward(self, speedstring):
+        print("tells the robot to go forward")
+        speed = int(speedstring)
+        self.robot.drive_system.start_moving(speed, speed)
     '''
 
 main()
