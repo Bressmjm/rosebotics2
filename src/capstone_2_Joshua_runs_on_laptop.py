@@ -68,14 +68,18 @@ def setup_gui(root_window,client):
     frame = ttk.Frame(root_window, padding=10)
     frame.grid()
 
-    speed_entry_box = ttk.Entry(frame)
-    go_forward_button = ttk.Button(frame, text="Let's Dance")
+    number_of_sides_entry_box = ttk.Entry(frame)
+    send_sides = ttk.Button(frame, text="Let's Dance")
 
-    speed_entry_box.grid()
-    go_forward_button.grid()
+    color_entry_box = ttk.Entry(frame)
 
-    go_forward_button['command'] = \
-        lambda: handle_go_forward(speed_entry_box, client)
+    number_of_sides_entry_box.grid()
+    send_sides.grid()
+
+    color_entry_box.grid()
+
+    send_sides['command'] = \
+        lambda: client.send_message('dance_routine',[int(number_of_sides_entry_box.get()),color_entry_box.get()])
 
 
 def handle_go_forward(entry_box, client):
