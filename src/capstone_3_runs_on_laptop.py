@@ -83,8 +83,12 @@ def setup_gui(root_window,client):
         lambda: handle_go_forward(speed_entry_box,client)
     go_backward_button['command'] = \
         lambda: handle_go_backward(speed_entry_box,client)
+    turn_right_button['command']=lambda: handle_turn_right(speed_entry_box,client)
+    turn_left_button['command']=lambda: handle_turn_left(speed_entry_box,client)
     choose_color_button['command']=lambda: handle_choose_color(frame1,frame2)
     yellow_button['command']=lambda: color_set('SIG1',client,frame1,frame2)
+    stop_button['command']=lambda: handle_stop_moving(client)
+    fetch_button['command']=lambda: handle_fetch(client,speed_entry_box)
 
 def handle_choose_color(frame1,frame2):
     frame1.grid_remove()
@@ -129,6 +133,10 @@ def handle_stop_moving(client):
     Tells the robot to go forward at the speed specified in the given entry box.
     """
     client.send_message('stop_moving')
+
+def handle_fetch(client,speedbox):
+    speed=speedbox.get()
+    client.send_message('fetch',[speed])
 
     # --------------------------------------------------------------------------
     #-------

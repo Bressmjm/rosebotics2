@@ -79,54 +79,63 @@ def main():
 
 
 
-def fetch():
+
+
+def fetch(speed):
     robot=rb.Snatch3rRobot()
-    robot.drive_system.start_moving()
+    robot.drive_system.start_moving(speed,speed)
     robot.drive_system.left_wheel.reset_degrees_spun()
     list=[]
     while True:
         blob=robot.camera.get_biggest_blob()
-        if blob.get_area()<=200:
+        if blob.get_area()<=10:
             print('test1')
             list=list+[robot.drive_system.left_wheel.get_degrees_spun()]
             robot.drive_system.left_wheel.reset_degrees_spun()
             robot.drive_system.stop_moving()
-            robot.drive_system.start_moving(-100, 100)
+            robot.drive_system.start_moving(-speed, speed)
             while True:
                 blob=robot.camera.get_biggest_blob()
-                if blob.get_area()>=200:
+                if blob.get_area()>=10:
                     print('test2')
                     list = list + [robot.drive_system.left_wheel.get_degrees_spun()]
                     robot.drive_system.left_wheel.reset_degrees_spun()
                     robot.drive_system.stop_moving()
                     break
-            robot.drive_system.start_moving()
-        if robot.proximity_sensor.get_distance_to_nearest_object_in_inches()<=1:
+            robot.drive_system.start_moving(speed,speed)
+        blob=robot.camera.get_biggest_blob()
+        if blob.get_area()>5000:
             list = list + [robot.drive_system.left_wheel.get_degrees_spun()]
             robot.drive_system.left_wheel.reset_degrees_spun()
             robot.drive_system.stop_moving()
             break
-#def retrace(robot,list):
+    list.reverse()
+    print(list)
+
+#def retrace(robot,list,speed):
+
     robot.arm.raise_arm_and_close_claw()
-    for k in range(0,len(list),2):
+    for k in range(0,len(list)-1,2):
         robot.drive_system.left_wheel.reset_degrees_spun()
-        robot.drive_system.start_moving(-100,-100)
+        robot.drive_system.start_moving(-speed,-speed)
         while True:
             if abs(robot.drive_system.left_wheel.get_degrees_spun())>=abs(list[k]):
                 robot.drive_system.stop_moving()
                 break
         robot.drive_system.left_wheel.reset_degrees_spun()
-        robot.drive_system.start_moving(100,-100)
+        robot.drive_system.start_moving(speed,-speed)
         while True:
             if abs(robot.drive_system.left_wheel.get_degrees_spun())>=abs(list[k+1]):
                 robot.drive_system.stop_moving()
                 break
+    print('test')
     robot.drive_system.left_wheel.reset_degrees_spun()
-    robot.drive_system.start_moving(-100, -100)
+    robot.drive_system.start_moving(-speed, -speed)
     while True:
         if abs(robot.drive_system.left_wheel.get_degrees_spun()) >= abs(list[len(list)-1]):
             robot.drive_system.stop_moving()
             break
+    print('test')
     robot.drive_system.spin_in_place_degrees(180)
     robot.arm.calibrate()
 

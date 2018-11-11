@@ -40,10 +40,10 @@ def main():
 
     # --------------------------------------------------------------------------
     while True:
-        if robot.beacon_button_sensor.is_top_red_button_pressed():
-            ev3.Sound.beep()
-        if robot.beacon_button_sensor.is_top_blue_button_pressed():
-            ev3.Sound.speak('Hello. How are you?')
+        #if robot.beacon_button_sensor.is_top_red_button_pressed():
+            #ev3.Sound.beep()
+        #if robot.beacon_button_sensor.is_top_blue_button_pressed():
+            #ev3.Sound.speak('Hello. How are you?')
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
@@ -71,8 +71,8 @@ class Remote_control(object):
         self.robot.drive_system.stop_moving()
     def choose_color(self,color):
         self.robot.camera.set_signature(color)
-    def fetch(self):
-        prj.fetch()
+    def fetch(self,speed):
+        prj.fetch(int(speed))
 
 
 
