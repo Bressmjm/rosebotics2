@@ -82,29 +82,32 @@ def main():
 
 
 def fetch(speed):
+    #goes up to an object of a specified color and brings it back to its initial position
     robot=rb.Snatch3rRobot()
     robot.drive_system.start_moving(speed,speed)
     robot.drive_system.left_wheel.reset_degrees_spun()
-    list=[]
+    list=[] #list records motion
     while True:
         blob=robot.camera.get_biggest_blob()
-        if blob.get_area()<=10:
+        if blob.get_area()<=10: #if off screen
             print('test1')
             list=list+[robot.drive_system.left_wheel.get_degrees_spun()]
             robot.drive_system.left_wheel.reset_degrees_spun()
             robot.drive_system.stop_moving()
             robot.drive_system.start_moving(-speed, speed)
             while True:
+                # Turns until it sees object
                 blob=robot.camera.get_biggest_blob()
                 if blob.get_area()>=10:
                     print('test2')
+                    robot.drive_system.stop_moving()
+                    robot.drive_system.spin_in_place_degrees(-15,speed)
                     list = list + [robot.drive_system.left_wheel.get_degrees_spun()]
                     robot.drive_system.left_wheel.reset_degrees_spun()
-                    robot.drive_system.stop_moving()
                     break
             robot.drive_system.start_moving(speed,speed)
         blob=robot.camera.get_biggest_blob()
-        if blob.get_area()>5000:
+        if blob.get_area()>5000: #stops when the object is close enough to grab
             list = list + [robot.drive_system.left_wheel.get_degrees_spun()]
             robot.drive_system.left_wheel.reset_degrees_spun()
             robot.drive_system.stop_moving()
@@ -113,9 +116,9 @@ def fetch(speed):
     print(list)
 
 #def retrace(robot,list,speed):
-
-    robot.arm.raise_arm_and_close_claw()
-    for k in range(0,len(list)-1,2):
+    #retraces the steps it took to get to the object
+    robot.arm.raise_arm_and_close_claw() #grabs object
+    for k in range(0,len(list)-1,2): #every other number in the list is a turn while the rest are the degrees moved forward
         robot.drive_system.left_wheel.reset_degrees_spun()
         robot.drive_system.start_moving(-speed,-speed)
         while True:
@@ -131,13 +134,13 @@ def fetch(speed):
     print('test')
     robot.drive_system.left_wheel.reset_degrees_spun()
     robot.drive_system.start_moving(-speed, -speed)
-    while True:
+    while True: #it has an odd number of items, thus the last one is done separately
         if abs(robot.drive_system.left_wheel.get_degrees_spun()) >= abs(list[len(list)-1]):
             robot.drive_system.stop_moving()
             break
     print('test')
-    robot.drive_system.spin_in_place_degrees(180)
-    robot.arm.calibrate()
+    robot.drive_system.spin_in_place_degrees(180) #spins to face you
+    robot.arm.calibrate() #drops object at your feet
 
 
 main()
