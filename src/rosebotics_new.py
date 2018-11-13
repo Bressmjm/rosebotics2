@@ -133,9 +133,9 @@ class Snatch3rRobot(object):
         self.color_sensor = ColorSensor(color_sensor_port)
         self.camera = Camera(camera_port)
 
-        self.proximity_sensor = InfraredAsProximitySensor(ir_sensor_port)
+        #self.proximity_sensor = InfraredAsProximitySensor(ir_sensor_port)
         #self.beacon_sensor = InfraredAsBeaconSensor(channel=1)
-        #self.beacon_button_sensor = InfraredAsBeaconButtonSensor(channel=1)
+        self.beacon_button_sensor = InfraredAsBeaconButtonSensor(channel=1)
 
         self.brick_button_sensor = BrickButtonSensor()
 
@@ -459,7 +459,7 @@ class Blob(object):
         self.center = center
         self.width = width
         self.height = height
-        self.screen_limits = Point(320, 240)  # FIXME
+        self.screen_limits = Point(320, 200)  # FIXME
 
     def __repr__(self):
         return "center: ({:3d}, {:3d})  width, height: {:3d} {:3d}.".format(
@@ -743,12 +743,12 @@ class ArmAndClaw(object):
         if self.motor.get_degrees_spun() > position * 360:
             self.motor.start_spinning(duty_cycle_percent=-75)
             while True:
-                if self.motor.get_degrees_spun() == position * 360:
+                if self.motor.get_degrees_spun() <= position * 360:
                     self.motor.stop_spinning()
                     break
         if self.motor.get_degrees_spun() < position * 360:
             self.motor.start_spinning(duty_cycle_percent=75)
             while True:
-                if self.motor.get_degrees_spun() == position * 360:
+                if self.motor.get_degrees_spun() <= position * 360:
                     self.motor.stop_spinning()
                     break

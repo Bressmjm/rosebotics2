@@ -71,23 +71,23 @@ def setup_gui(root_window, mqtt_client):
     frame = ttk.Frame(root_window, padding=10)
     frame.grid()
 
-    speed_entry_box = ttk.Entry(frame)
-    go_forward_button = ttk.Button(frame, text="Go forward")
+    intensity_box = ttk.Entry(frame)
+    intensity_button = ttk.Button(frame, text="Set Intensity")
 
-    speed_entry_box.grid()
-    go_forward_button.grid()
+    intensity_box.grid()
+    intensity_button.grid()
 
-    go_forward_button['command'] = \
-        lambda: handle_go_forward(speed_entry_box, mqtt_client)
+    intensity_button['command'] = \
+        lambda: handle_intensity(intensity_box, mqtt_client)
 
 
-def handle_go_forward(entry_box, mqtt_client):
+def handle_intensity(entry_box, mqtt_client):
     """
     Tells the robot to go forward at the speed specified in the given entry box.
     """
-    speed_string = entry_box.get()
-    print('go_forward message with speed', speed_string)
-    mqtt_client.send_message('go_forward', [speed_string])
+    intensity_string = entry_box.get()
+    print('Setting intensity to', intensity_string)
+    mqtt_client.send_message('set_intensity', [intensity_string])
     # --------------------------------------------------------------------------
     # TODO: 6. This function needs the entry box in which the user enters
     # TODO:    the speed at which the robot should move.  Make the 2 changes
