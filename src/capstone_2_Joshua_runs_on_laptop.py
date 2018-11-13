@@ -68,16 +68,18 @@ def setup_gui(root_window,client):
     frame = ttk.Frame(root_window, padding=10)
     frame.grid()
 
+    label1 = ttk.Label(frame, text="Input a number between 3 and 20")
     number_of_sides_entry_box = ttk.Entry(frame)
     send_sides = ttk.Button(frame, text="Let's Dance")
 
+    label2 = ttk.Label(frame, text="Input a COLOR")
     color_entry_box = ttk.Entry(frame)
 
+    label1.grid()
     number_of_sides_entry_box.grid()
-    send_sides.grid()
-
+    label2.grid()
     color_entry_box.grid()
-
+    send_sides.grid()
     send_sides['command'] = \
         lambda: client.send_message('dance_routine',[int(number_of_sides_entry_box.get()),color_entry_box.get()])
 
