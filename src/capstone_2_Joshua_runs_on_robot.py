@@ -30,83 +30,9 @@ def main():
     rc = RemoteControlEtc(robot)
     client = com.MqttClient(rc)
     client.connect_to_pc()
-
-# Individual Project- Joshua Bressman
-# Dance Path
-def dance_routine(n, robot, color):
-    # Statement
-    print('I am a dancing robot. Watch me dance!')
-    # Sound
-    ev3.Sound.speak("I am a dancing robot. Watch me dance!").wait()
-    polygon_list = ['triangle', 'quadrilateral', 'pentagon', 'hexagon', 'heptagon', 'octagon', 'enneagon',
-                    'decagon', 'hendecagon', 'dodecagon', 'tridecagon', 'tetradecagon', 'pendedecagon',
-                    'hexdecagon', 'heptdecagon', 'octdecagon', 'enneadecagon', 'icosagon']
-    deg_total = 180 * (n - 2)
-    deg_turn = deg_total / n
-    totalspins = n
     while True:
-        robot.drive_system.go_straight_inches(24)
-        time.sleep(2)
-        robot.drive_system.spin_in_place_degrees(180 - deg_turn)
-        time.sleep(2)
-        # Moving A Blocking Object
-        if robot.InfraredAsProximitySensor.get_distance_to_nearest_object() <= 10:
-            robot.ArmAndClaw.raise_arm_and_close_claw()
-        # Statement
-        print('Get out of my way I am trying to make art!')
-        # Sounds
-        ev3.Sound.speak("Get out of my way I am trying to make art!").wait()
-        # Spin When Encounters A Color
-        if robot.color_sensor.get_color == color:
-            robot.drive_system.spin_in_place_degrees(360)
-            totalspins = totalspins - 1
-            # Statement
-            print('I am spinning at the color', color)
-            # Sounds
-            ev3.Sound.speak("I am spinning at the color", color).wait()
-        if totalspins == 0:
-            break
-    # Statement
-    print("I danced in the shape of an", polygon_list[n - 3])
-    # Sounds
-    ev3.Sound.speak("I danced in the shape of an", polygon_list[n - 3]).wait()
+        pass
 
-    # --------------------------------------------------------------------------
-    # TODO: 3. Construct a Snatch3rRobot.  Test.  When OK, delete this TODO.
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    # TODO: 4. Add code that constructs a   com.MqttClient   that will
-    # TODO:    be used to receive commands sent by the laptop.
-    # TODO:    Connect it to this robot.  Test.  When OK, delete this TODO.
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    # TODO: 5. Add a class for your "delegate" object that will handle messages
-    # TODO:    sent from the laptop.  Construct an instance of the class and
-    # TODO:    pass it to the MqttClient constructor above.  Augment the class
-    # TODO:    as needed for that, and also to handle the go_forward message.
-    # TODO:    Test by PRINTING, then with robot.  When OK, delete this TODO.
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    # TODO: 6. With your instructor, discuss why the following WHILE loop,
-    # TODO:    that appears to do nothing, is necessary.
-    # TODO:    When you understand this, delete this TODO.
-    # --------------------------------------------------------------------------
-    while True:
-        if robot.beacon_button_sensor.is_top_red_button_pressed() == True:
-            ev3.Sound.beep()
-        if robot.beacon_button_sensor.is_top_blue_button_pressed() == True:
-            speech = ev3.Sound.speak("Hello, How are you?")
-            speech.play()
-        # ----------------------------------------------------------------------
-        # TODO: 7. Add code that makes the robot beep if the top-red button
-        # TODO:    on the Beacon is pressed.  Add code that makes the robot
-        # TODO:    speak "Hello. How are you?" if the top-blue button on the
-        # TODO:    Beacon is pressed.  Test.  When done, delete this TODO.
-        # ----------------------------------------------------------------------
-        time.sleep(0.01)  # For the delegate to do its work
 
 class RemoteControlEtc(object):
     def __init__(self, robot):

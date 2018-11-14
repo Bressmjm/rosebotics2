@@ -80,8 +80,8 @@ def setup_gui(root_window,client):
     label2.grid()
     color_entry_box.grid()
     send_sides.grid()
-    send_sides['command'] = \
-        lambda: client.send_message('dance_routine',[int(number_of_sides_entry_box.get()),color_entry_box.get()])
+    send_sides['command'] = lambda: \
+        handle_dance(client,int(number_of_sides_entry_box.get()),color_entry_box.get())
 
 
 def handle_go_forward(entry_box, client):
@@ -89,6 +89,9 @@ def handle_go_forward(entry_box, client):
     print("sending the message", speedstring)
     client.send_message("go_forward", [speedstring])
 
+def handle_dance(client, n, color):
+    print('fuck it, we\'ll do it live')
+    client.send_message('dance_routine', [n,color])
 
 
 
@@ -122,6 +125,5 @@ def handle_go_forward(entry_box, client):
     # TODO:
     # TODO:    Test by using a PRINT statement.  When done, delete this TODO.
     # --------------------------------------------------------------------------
-
 
 main()
