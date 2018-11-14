@@ -33,7 +33,6 @@ def main():
     while True:
         pass
 
-
 class RemoteControlEtc(object):
     def __init__(self, robot):
         '''
@@ -55,28 +54,31 @@ class RemoteControlEtc(object):
         deg_total = 180 * (n - 2)
         deg_turn = deg_total / n
         totalspins = n
-        while True:
-            self.robot.drive_system.go_straight_inches(24)
-            time.sleep(2)
-            self.robot.drive_system.spin_in_place_degrees(180 - deg_turn)
-            time.sleep(2)
-            # Moving A Blocking Object
-            if self.robot.proximity_sensor.get_distance_to_nearest_object() <= 10:
-                self.robot.arm.raise_arm_and_close_claw()
-            # Statement
-            print('Get out of my way I am trying to make art!')
-            # Sounds
-            ev3.Sound.speak("Get out of my way I am trying to make art!").wait()
-            # Spin When Encounters A Color
-            if self.robot.color_sensor.get_color == color:
-                self.robot.drive_system.spin_in_place_degrees(360)
-                totalspins = totalspins - 1
+        for k in range(n):
+            stored_time = time.localtime()
+            while True:
+                self.robot.drive_system.start_moving()
+                # Moving A Blocking Object
+                if self.robot.proximity_sensor.get_distance_to_nearest_object() <= 1:
+                    self.robot.drive_system.stop_moving()
+                    self.robot.arm.raise_arm_and_close_claw()
                 # Statement
-                print('I am spinning at the color', color)
+                    print('Get out of my way I am trying to make art!')
                 # Sounds
-                ev3.Sound.speak("I am spinning at the color", color).wait()
-            if totalspins == 0:
-                break
+                    ev3.Sound.speak("Get out of my way I am trying to make art!").wait()
+                # Spin When Encounters A Color
+                if self.robot.color_sensor.get_color == color:
+                    self.robot.drive_system.stop_moving()
+                    self.robot.drive_system.spin_in_place_degrees(360)
+                    # Statement
+                    print('I am spinning at the color', color)
+                    # Sounds
+                    ev3.Sound.speak("I am spinning at the color", color).wait()
+                if time.localtime() - stored_time >= 3:
+                    self.robot.drive_system.stop_moving()
+                    self.robot.drive_system.spin_in_place_degrees(180 - deg_turn)
+                    break
+        self.robot.drive_system.spin_in_place_degrees(360)
         # Statement
         print("I danced in the shape of an", polygon_list[n - 3])
         # Sounds

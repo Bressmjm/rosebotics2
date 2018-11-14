@@ -90,7 +90,7 @@ def handle_go_forward(entry_box, client):
     client.send_message("go_forward", [speedstring])
 
 def handle_dance(client, n, color):
-    print('fuck it, we\'ll do it live')
+    print('let go')
     client.send_message('dance_routine', [n,color])
 
 
