@@ -705,7 +705,7 @@ class ArmAndClaw(object):
     def calibrate(self):
         self.raise_arm_and_close_claw()
         self.motor.reset_degrees_spun()
-        self.motor.start_spinning(duty_cycle_percent=-75)
+        self.motor.start_spinning(duty_cycle_percent=-100)
         while True:
             if abs(self.motor.get_degrees_spun()) >= 5112:
                 self.motor.stop_spinning()

@@ -53,34 +53,35 @@ class RemoteControlEtc(object):
                         'hexdecagon', 'heptdecagon', 'octdecagon', 'enneadecagon', 'icosagon']
         deg_total = 180 * (n - 2)
         deg_turn = deg_total / n
-        color_list = [rb.Color.NO_COLOR.value(),rb.Color.BLACK.value(),rb.Color.BLUE.value(),rb.Color.GREEN.value(),rb.Color.YELLOW.value(),rb.Color.RED.value()]
+        color_list = [rb.Color.NO_COLOR.value,rb.Color.BLACK.value,rb.Color.BLUE.value,rb.Color.GREEN.value,rb.Color.YELLOW.value,rb.Color.RED.value]
         color_string_list = ['none','Black','Blue','Green','Yellow','Red']
-        color = rb.NO_COLOR.value()
         for k in range(len(color_string_list)):
             if color == color_string_list[k]:
                 color = color_list[k]
 
         for b in range(n):
-            stored_time = time.localtime()
+            stored_time = time.time()
             while True:
                 self.robot.drive_system.start_moving()
                 # Moving A Blocking Object
                 if self.robot.proximity_sensor.get_distance_to_nearest_object() <= 10:
+                    self.robot.drive_system.stop_moving()
                     self.robot.arm.raise_arm_and_close_claw()
                 # Statement
                     print('Get out of my way I am trying to make art!')
                 # Sounds
                     ev3.Sound.speak("Get out of my way I am trying to make art!").wait()
                 # Spin When Encounters A Color
-                if self.robot.color_sensor.get_color == color:
+                if self.robot.color_sensor.get_color() == color:
                     self.robot.drive_system.stop_moving()
                     self.robot.drive_system.spin_in_place_degrees(360)
                     # Statement
                     print('I am spinning at the color', color)
                     # Sounds
                     ev3.Sound.speak("I am spinning at the color", color).wait()
-                if time.localtime() - stored_time >= 3:
+                if time.time() >= stored_time + 3:
                     self.robot.drive_system.stop_moving()
+                    self.robot.arm.calibrate()
                     self.robot.drive_system.spin_in_place_degrees(180 - deg_turn)
                     break
         self.robot.drive_system.spin_in_place_degrees(360)
