@@ -53,14 +53,19 @@ class RemoteControlEtc(object):
                         'hexdecagon', 'heptdecagon', 'octdecagon', 'enneadecagon', 'icosagon']
         deg_total = 180 * (n - 2)
         deg_turn = deg_total / n
-        totalspins = n
-        for k in range(n):
+        color_list = [rb.Color.NO_COLOR.value(),rb.Color.BLACK.value(),rb.Color.BLUE.value(),rb.Color.GREEN.value(),rb.Color.YELLOW.value(),rb.Color.RED.value()]
+        color_string_list = ['none','Black','Blue','Green','Yellow','Red']
+        color = rb.NO_COLOR.value()
+        for k in range(len(color_string_list)):
+            if color == color_string_list[k]:
+                color = color_list[k]
+
+        for b in range(n):
             stored_time = time.localtime()
             while True:
                 self.robot.drive_system.start_moving()
                 # Moving A Blocking Object
-                if self.robot.proximity_sensor.get_distance_to_nearest_object() <= 1:
-                    self.robot.drive_system.stop_moving()
+                if self.robot.proximity_sensor.get_distance_to_nearest_object() <= 10:
                     self.robot.arm.raise_arm_and_close_claw()
                 # Statement
                     print('Get out of my way I am trying to make art!')
@@ -80,7 +85,7 @@ class RemoteControlEtc(object):
                     break
         self.robot.drive_system.spin_in_place_degrees(360)
         # Statement
-        print("I danced in the shape of an", polygon_list[n - 3])
+        print("Tadaaaaaa")
         # Sounds
         ev3.Sound.speak("I danced in the shape of an", polygon_list[n - 3]).wait()
     '''
