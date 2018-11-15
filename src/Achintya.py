@@ -81,9 +81,9 @@ def main():
 
 
 
-def fetch(speed):
+def fetch(speed,robot,client):
+    client.send_message('searching')
     #goes up to an object of a specified color and brings it back to its initial position
-    robot=rb.Snatch3rRobot()
     robot.drive_system.start_moving(speed,speed)
     robot.drive_system.left_wheel.reset_degrees_spun()
     list=[] #list records motion
@@ -101,13 +101,13 @@ def fetch(speed):
                 if blob.get_area()>=10:
                     print('test2')
                     robot.drive_system.stop_moving()
-                    robot.drive_system.spin_in_place_degrees(-15,speed)
                     list = list + [robot.drive_system.left_wheel.get_degrees_spun()]
                     robot.drive_system.left_wheel.reset_degrees_spun()
                     break
             robot.drive_system.start_moving(speed,speed)
         blob=robot.camera.get_biggest_blob()
-        if blob.get_area()>5000: #stops when the object is close enough to grab
+        if blob.get_area()>5500: #stops when the object is close enough to grab
+            client.send_message('found')
             list = list + [robot.drive_system.left_wheel.get_degrees_spun()]
             robot.drive_system.left_wheel.reset_degrees_spun()
             robot.drive_system.stop_moving()

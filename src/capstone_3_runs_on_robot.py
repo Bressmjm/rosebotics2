@@ -26,9 +26,13 @@ def main():
     robot=rb.Snatch3rRobot()
     # --------------------------------------------------------------------------
     # --------------------------------------------------------------------------
-    rc = Remote_control(robot)
-    client=com.MqttClient(rc)
+    rc = Remote_control(robot,None)
+    client = com.MqttClient(rc)
     client.connect_to_pc()
+    rc.client=client
+
+
+
     # --------------------------------------------------------------------------
     #
 
@@ -50,11 +54,12 @@ def main():
         time.sleep(0.01)  # For the delegate to do its work
 
 class Remote_control(object):
-    def __init__(self,robot):
+    def __init__(self,robot,client):
         """
         :type robot: rb.Snatch3rRobot
         """
         self.robot=robot
+        self.client=client
     def go_forward(self,speedstr):
         speed=int(speedstr)
         self.robot.drive_system.start_moving(speed,speed)
@@ -70,9 +75,15 @@ class Remote_control(object):
     def stop_moving(self):
         self.robot.drive_system.stop_moving()
     def choose_color(self,color):
+        print(color)
         self.robot.camera.set_signature(color)
     def fetch(self,speed):
-        prj.fetch(int(speed))
+        print('fetch')
+        prj.fetch(int(speed),self.robot,self.client)
+
+
+
+
 
 
 
